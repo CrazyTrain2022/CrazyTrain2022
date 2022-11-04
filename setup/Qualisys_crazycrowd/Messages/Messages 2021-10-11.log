@@ -1,0 +1,11 @@
+1	10:43:41	Realtime started	
+1	10:44:15	Recalibration recommended	Cameras 2 and 4 have residuals (4.1 and 4.9) exceeding the warning level.
+1	10:44:15	No 6D bodies are defined	
+1	10:44:15	File created	
+1	10:44:25	Rigid body: box added.	The new body definition was added both to the file and to the Project Options.
+1	10:44:25	Rigid bodies did not always match definition	When 6D data is calculated from the positions of markers, at least three of the points of a body must be present in a data frame to let QTM calculate the 6D position of the rigid body.  Even if three or more points are present in a frame, sometimes the 6D position is not calculated anyway, because the distances between points do not match the rigid body definition well enough.  This happened now: Body "box": in 3 of the 1032 frames where at least three points were present  To avoid this, either increase the "Bone length tolerance" parameter, improve the rigidity of the body or correct the definition of the body.
+1	10:44:31	File closed	
+1	10:44:34	Realtime started	
+1	10:49:58	Disconnected	
+1	10:52:30	Realtime started	
+1	11:09:50	Disconnected	

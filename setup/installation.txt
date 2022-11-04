@@ -1,0 +1,78 @@
+################# MAKE SURE TERMINAL WINDOW IS IN "visionen" FOLDER! #################
+##################### Copy and run each command in your terminal #####################
+##### Note the comments between terminal commands, do not blindly copy each line #####
+
+
+################################## Prerequisites 1 ###################################
+
+bash ./setup/prereq1.sh
+
+
+#################################### ROS Noetic ######################################
+
+sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+sudo apt update
+sudo apt install -y ros-noetic-desktop
+echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc
+source ~/.bashrc
+
+
+############################# nlopt & uav_trajectories ###############################
+
+bash ./setup/build_nlopt_uav.sh
+
+
+################################## Prerequisites 2 ###################################
+
+bash ./setup/prereq2.sh
+
+
+#################################### Crazyswarm ######################################
+
+cd crazyswarm
+git submodule init
+git submodule update
+export CSW_PYTHON=python3
+./build.sh
+cd ..
+
+bash ./setup/copy_files.sh
+
+
+################################## Manual Control ###################################
+
+sudo apt-get install -y --install-recommends jstest* joystick xboxdrv
+
+touch pydatertc.sh
+nano pydatertc.sh
+
+### Add the following line to the file:
+
+sudo xboxdrv --silent
+
+### Save using ctrl + s
+### Exit using ctrl + x
+
+sudo chown root:root ./pydatertc.sh
+sudo chmod 700 ./pydatertc.sh
+sudo visudo
+
+### Below the line "%sudo    ALL=(ALL:ALL) ALL", insert the following line
+### ((( NOTE: USERNAME should be replaced by your computer's username and 
+### PATH/TO/VISIONEN should be replaced by your path to visionen. ))) :
+
+USERNAME  ALL=(ALL) NOPASSWD: /home/PATH/TO/VISIONEN/pydatertc.sh
+
+### Save using ctrl + s
+### Exit using ctrl + x
+
+nano crazyswarm/ros_ws/src/crazyswarm/scripts/manual_control.py 
+
+### Change the line PROJECT_PATH = "/home/crazycrowd/crazycrowd/visionen" to your specific path. 
+
+### Save using ctrl + s
+### Exit using ctrl + x
+
+
+### The installation should be complete and you are ready to use the software.

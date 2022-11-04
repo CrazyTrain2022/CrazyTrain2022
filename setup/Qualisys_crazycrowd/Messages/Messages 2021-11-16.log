@@ -1,0 +1,16 @@
+1	13:05:41	Realtime started	
+1	13:07:50	Disconnected	
+1	13:07:52	Realtime started	
+1	13:41:57	Recalibration recommended	Cameras 1, 2 and 3 have very few contributions to the 3D reconstruction.
+1	13:41:57	Certain active markers missing from measurement	These trajectories were connected to specific physical IDs of active markers, but those active markers were missing (or had the wrong ID settings):  Physical marker ID 1 for trajectory Crazyflie - 1 Physical marker ID 3 for trajectory Crazyflie - 2 Physical marker ID 2 for trajectory Crazyflie - 3 Physical marker ID 4 for trajectory Crazyflie - 4   If you don't want to use the physical IDs when identifying, uncheck the option "Use the physical IDs of active markers" in the AIM application settings.
+1	13:41:57	File created	
+1	13:43:26	File closed	
+1	13:43:28	Realtime started	
+1	13:43:53	Disconnected	
+1	13:43:55	Realtime started	
+1	13:44:28	Recalibration recommended	Camera 7 has very few contributions to the 3D reconstruction.
+1	13:44:28	Certain active markers missing from measurement	These trajectories were connected to specific physical IDs of active markers, but those active markers were missing (or had the wrong ID settings):  Physical marker ID 1 for trajectory Crazyflie - 1 Physical marker ID 3 for trajectory Crazyflie - 2 Physical marker ID 2 for trajectory Crazyflie - 3 Physical marker ID 4 for trajectory Crazyflie - 4   If you don't want to use the physical IDs when identifying, uncheck the option "Use the physical IDs of active markers" in the AIM application settings.
+1	13:44:28	File created	
+1	13:45:04	File closed	
+1	13:45:07	Realtime started	
+1	16:48:52	Disconnected	

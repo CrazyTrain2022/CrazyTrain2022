@@ -1,0 +1,4 @@
+/home/crazycrowd/crazycrowd/visionen/uav_trajectories/build/CMakeFiles/edit_cache.dir
+/home/crazycrowd/crazycrowd/visionen/uav_trajectories/build/CMakeFiles/rebuild_cache.dir
+/home/crazycrowd/crazycrowd/visionen/uav_trajectories/build/CMakeFiles/genTrajectory.dir
+/home/crazycrowd/crazycrowd/visionen/uav_trajectories/build/CMakeFiles/mav_trajectory_generation.dir

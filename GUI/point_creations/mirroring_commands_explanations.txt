@@ -1,0 +1,17 @@
+Python terminal commands:
+python mirror_movement.py nbr_drones circular/linear/replicate helix radius height incr_radias center nbr_waypoints repli_dist repli_xdir repli_ydir
+python mirror_movement.py nbr_drones circular/linear/replicate circle radius height center nbr_waypoints repli_dist repli_xdir repli_ydir
+python mirror_movement.py nbr_drones circular/linear/replicate line startpoint endpoint nbr_waypoints repli_dist repli_xdir repli_ydir
+
+
+Testing-commands:
+python mirror_movement.py 6 circular helix 0.5 1 0 1 2 10
+python mirror_movement.py 4 linear circle 0.5 1 1 1 10
+python mirror_movement.py 6 circular helix 2 1 0 1 2 10
+python mirror_movement.py 6 circular circle 1 0.5 0 1 10
+python mirror_movement.py 4 linear helix 0.5 1 0 1 1 10
+python mirror_movement.py 4 linear line 1 1 1 2 1 1 10
+python mirror_movement.py 4 circular line 1 1 1 2 1 1 10
+python mirror_movement.py 6 replicate line 1 1 1 2 2 4 2 3
+python mirror_movement.py 6 replicate helix 0.5 1 0 1 2 10 4 2 3
+python mirror_movement.py 6 replicate circle 1 1 1 1 10 4 2 3

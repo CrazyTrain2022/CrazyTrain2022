@@ -1,0 +1,10 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/crazycrowd/crazycrowd/visionen/nlopt/build/CMakeTmp/UNDEFINED_SYMBOLS_ALLOWED/foo.c
+
