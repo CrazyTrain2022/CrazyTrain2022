@@ -30,7 +30,7 @@ class Gui_app:
 
     # when destroyed, remove all unsaved points_csv files, but leaves the folders with saved missions
     def __del__(self):
-        print("Crazycrowd - GUI is being closed. Removing all unsaved waypoints- and trajectory-csv files")
+        print("Crazytrain - GUI is being closed. Removing all unsaved waypoints- and trajectory-csv files")
 
         # delete waypoint csv files
         files = glob.glob('GUI/points_csv/*')

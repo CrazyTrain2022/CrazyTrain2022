@@ -7,6 +7,7 @@ import tkinter as tk
 from subprocess import Popen
 import yaml
 import os
+import sys
 
 from pop_up import Pop_up
 
@@ -39,6 +40,7 @@ class Gui_menu:
         drone_submen = tk.Menu(menu_widget, tearoff=False)
         drone_submen.add_command(label="Select drones", command=self.select_drones)
         drone_submen.add_command(label="Start ROS server", command=self.start_ros_server)
+        drone_submen.add_command(label="Start hover swarm", command=self.start_hover_swarm)
         drone_submen.add_command(label="Show drone position", command=self.drone_position)
         drone_submen.add_command(label="Update", command=self.update_drone_tabs)
         menu_widget.add_cascade(label="Drone", menu=drone_submen)
@@ -61,6 +63,7 @@ class Gui_menu:
         # mission_replicate.add_command(label="Linear repitition")
         # mission_replicate.add_command(label="Follow the leader")
         # mission_submenu.add_cascade(label="Replicate", menu=mission_replicate)
+        mission_submenu.add_command(label="Figure8", command=self.run_figure8)
         menu_widget.add_cascade(label="Missions", menu=mission_submenu)
         
         self.master.config(menu=menu_widget)
@@ -130,6 +133,12 @@ class Gui_menu:
     def start_ros_server(self):
         os.system('gnome-terminal -- bash GUI/bash_scripts/start_ros.sh')
 
+    # runs a bash script that starts the ROS server
+    # input: -
+    # output: -
+    def start_hover_swarm(self):
+        os.system('gnome-terminal -- bash GUI/bash_scripts/start_hover_swarm.sh')
+
 
     # runs a bash script that will provide the drone position
     # input: -
@@ -192,3 +201,6 @@ class Gui_menu:
         pop_up_window.geometry("350x120")
 
         Pop_up(pop_up_window,"Helix pattern options", "Create Helix", self.gui_mission)
+
+    def run_figure8(self):
+        os.system('gnome-terminal -- bash GUI/bash_scripts/run_figure8.sh')

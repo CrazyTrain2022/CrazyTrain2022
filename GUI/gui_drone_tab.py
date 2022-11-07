@@ -116,16 +116,15 @@ class Gui_drone_tab:
     # input: -
     # output: -
     def updateScrollRegion(self):
-	    self.canvas.update_idletasks()
-	    self.canvas.config(scrollregion=self.points_frame.bbox())
-        
-
+        self.canvas.update_idletasks()
+        self.canvas.config(scrollregion=self.points_frame.bbox())
     # creates a csv file for path points from points_mtx
     # this function takes waypoints as input argument instead of using class variable to enable
     # usage from other class with different waypoints as well
     # input: [np.array] waypoints
     # output: -
     def save_csv_file(self, waypoints):
+        print("working")
         np.savetxt('GUI/points_csv/drone'+ str(self.name)+'waypoints.csv', X=waypoints, delimiter=',', fmt='%10.3f')
 
 

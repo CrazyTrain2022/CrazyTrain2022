@@ -68,6 +68,7 @@ class Mission_point:
         # check if the enteries are numbers of size that fits in Visionen
         if(x_res and y_res and z_res):
             if(not self.allowed_coord(float(x), float(y), float(z), start_coord)):  # check if in allowed range
+                print("not allowed")
                 return -1
             return [float(x), float(y), float(z)] # return the coordinates 
         elif(x == '' and y == '' and z == ''): # if empty return 0 to signal row skipped
