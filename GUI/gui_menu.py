@@ -33,6 +33,7 @@ class Gui_menu:
         self.file_submen.add_command(label="Load mission", command=self.load_mission)
         self.file_submen.add_command(label="Remove saved missions", command=self.delete_saved_missions)
         self.file_submen.add_command(label="Show yaw option", command=self.yaw_option)
+        self.file_submen.add_command(label="change parameters", command=self.change_parameters)
         # file_submen.add_command(label="Add duration column")
         menu_widget.add_cascade(label="File", menu=self.file_submen)
 
@@ -120,6 +121,9 @@ class Gui_menu:
             self.file_submen.entryconfigure(3, label="Hide yaw option")
             self.yaw_option_showing = True
             self.gui_mission.show_yaw_option()
+        
+    def change_parameters(self):
+        os.system('gnome-terminal -- bash GUI/bash_scripts/change_parameters.sh')
         
 
     # runs a bash script that calls crazyswarm chooser.py script to select drones
