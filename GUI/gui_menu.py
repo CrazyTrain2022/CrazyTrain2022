@@ -33,7 +33,7 @@ class Gui_menu:
         self.file_submen.add_command(label="Load mission", command=self.load_mission)
         self.file_submen.add_command(label="Remove saved missions", command=self.delete_saved_missions)
         self.file_submen.add_command(label="Show yaw option", command=self.yaw_option)
-        self.file_submen.add_command(label="change parameters", command=self.change_parameters)
+        self.file_submen.add_command(label="Change parameters", command=self.change_parameters)
         # file_submen.add_command(label="Add duration column")
         menu_widget.add_cascade(label="File", menu=self.file_submen)
 
@@ -66,6 +66,7 @@ class Gui_menu:
         # mission_replicate.add_command(label="Follow the leader")
         # mission_submenu.add_cascade(label="Replicate", menu=mission_replicate)
         mission_submenu.add_command(label="Figure8", command=self.run_figure8)
+        mission_submenu.add_command(label="Hello world", command=self.run_hello_world)
         menu_widget.add_cascade(label="Missions", menu=mission_submenu)
         
         self.master.config(menu=menu_widget)
@@ -213,3 +214,5 @@ class Gui_menu:
 
     def run_figure8(self):
         os.system('gnome-terminal -- bash GUI/bash_scripts/run_figure8.sh')
+    def run_hello_world(self):
+        os.system('gnome-terminal -- bash GUI/bash_scripts/run_hello_world.sh')
