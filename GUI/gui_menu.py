@@ -57,7 +57,10 @@ class Gui_menu:
         mission_submenu = tk.Menu(menu_widget, tearoff=False)
         mission_pattern = tk.Menu(menu_widget, tearoff=False)
         mission_pattern.add_command(label="Helix", command=self.helix_pattern)
+        mission_pattern.add_command(label="Figure8", command=self.run_figure8)
+        mission_pattern.add_command(label="Hello world", command=self.run_hello_world)
         mission_submenu.add_cascade(label="Pattern", menu=mission_pattern)
+        mission_submenu.add_command(label="Follow the leader", command=self.run_follow_the_leader)
         mission_replicate = tk.Menu(menu_widget, tearoff=False)
         # TODO: add different replicate options that takes the waypoints from the first drone
         #       and in some way create waypoints for the other drones
@@ -65,8 +68,7 @@ class Gui_menu:
         # mission_replicate.add_command(label="Linear repitition")
         # mission_replicate.add_command(label="Follow the leader")
         # mission_submenu.add_cascade(label="Replicate", menu=mission_replicate)
-        mission_submenu.add_command(label="Figure8", command=self.run_figure8)
-        mission_submenu.add_command(label="Hello world", command=self.run_hello_world)
+
         menu_widget.add_cascade(label="Missions", menu=mission_submenu)
         
         self.master.config(menu=menu_widget)
@@ -214,5 +216,9 @@ class Gui_menu:
 
     def run_figure8(self):
         os.system('gnome-terminal -- bash GUI/bash_scripts/run_figure8.sh')
+    
     def run_hello_world(self):
         os.system('gnome-terminal -- bash GUI/bash_scripts/run_hello_world.sh')
+
+    def run_follow_the_leader(self):
+        print("not implemented yet")
