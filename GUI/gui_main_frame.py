@@ -99,8 +99,8 @@ class Gui_main_frame:
         if(self.autonomous):
             worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
             if(worked):
-                #os.system('gnome-terminal -- bash GUI/bash_scripts/start_flight.sh')
-                print("not implemented yet")
+                os.system('gnome-terminal -- bash GUI/bash_scripts/start_flight.sh')
+                os.system('gnome-terminal -- bash GUI/bash_scripts/start_sim.sh')
         else:
             #Popen("python3 manual_control.py --t --manual", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
             print("not implemented yet")
