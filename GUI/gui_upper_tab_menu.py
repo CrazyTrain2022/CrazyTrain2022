@@ -13,7 +13,7 @@ from pop_up import Pop_up
 
 # Creating class for Gui menu
 # Input: master frame and gui_mission instance
-class Gui_menu:
+class Gui_upper_tab_menu:
     def __init__(self, master_, gui_mission_) -> None:
         # Instantiating toplevel window
         self.master = master_
@@ -34,7 +34,6 @@ class Gui_menu:
         self.file_submen.add_command(label="Remove saved missions", command=self.delete_saved_missions)
         self.file_submen.add_command(label="Show yaw option", command=self.yaw_option)
         self.file_submen.add_command(label="Change parameters", command=self.change_parameters)
-        # file_submen.add_command(label="Add duration column")
         menu_widget.add_cascade(label="File", menu=self.file_submen)
 
         # drone menu
@@ -62,12 +61,6 @@ class Gui_menu:
         mission_submenu.add_cascade(label="Pattern", menu=mission_pattern)
         mission_submenu.add_command(label="Follow the leader", command=self.run_follow_the_leader)
         mission_replicate = tk.Menu(menu_widget, tearoff=False)
-        # TODO: add different replicate options that takes the waypoints from the first drone
-        #       and in some way create waypoints for the other drones
-        # mission_replicate.add_command(label="Circular repitition")
-        # mission_replicate.add_command(label="Linear repitition")
-        # mission_replicate.add_command(label="Follow the leader")
-        # mission_submenu.add_cascade(label="Replicate", menu=mission_replicate)
 
         menu_widget.add_cascade(label="Missions", menu=mission_submenu)
         
@@ -124,11 +117,14 @@ class Gui_menu:
             self.file_submen.entryconfigure(3, label="Hide yaw option")
             self.yaw_option_showing = True
             self.gui_mission.show_yaw_option()
-        
+    
+    # runs a bash script that opens hover_swarm file to enable changing
+    # controller and filter parameter
+    # input: -
+    # output: -
     def change_parameters(self):
         os.system('gnome-terminal -- bash GUI/bash_scripts/change_parameters.sh')
         
-
     # runs a bash script that calls crazyswarm chooser.py script to select drones
     # input: -
     # output: -
@@ -141,16 +137,17 @@ class Gui_menu:
     def start_ros_server(self):
         os.system('gnome-terminal -- bash GUI/bash_scripts/start_ros.sh')
 
-    # runs a bash script that starts the ROS server
+    # runs a bash script that starts hover_swarm
     # input: -
     # output: -
     def start_hover_swarm(self):
         os.system('gnome-terminal -- bash GUI/bash_scripts/start_hover_swarm.sh')
 
+    # runs a bash script that starts mocap_helper
+    # input: -
+    # output: -
     def start_mocap_helper(self):
         os.system('gnome-terminal -- bash GUI/bash_scripts/start_mocap_helper.sh')
-
-
 
     # runs a bash script that will provide the drone position
     # input: -
@@ -214,11 +211,20 @@ class Gui_menu:
 
         Pop_up(pop_up_window,"Helix pattern options", "Create Helix", self.gui_mission)
 
+    # runs a bash script that starts figure8
+    # input: -
+    # output: -
     def run_figure8(self):
         os.system('gnome-terminal -- bash GUI/bash_scripts/run_figure8.sh')
     
+    # runs a bash script that starts hello_world
+    # input: -
+    # output: -
     def run_hello_world(self):
         os.system('gnome-terminal -- bash GUI/bash_scripts/run_hello_world.sh')
 
+    # runs a bash script starts follow_the_leader
+    # input: -
+    # output: -
     def run_follow_the_leader(self):
         print("not implemented yet")

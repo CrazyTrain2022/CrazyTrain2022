@@ -11,7 +11,7 @@ from shutil import copyfile
 
 from mission_point import Mission_point
 
-class Gui_drone_tab:
+class Gui_drone_scroll_tab:
     def __init__(self, master, name_, start_coord_, show_yaw_) -> None:
         self.connected = False
         self.battery_level = 0
