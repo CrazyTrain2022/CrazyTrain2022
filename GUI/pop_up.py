@@ -62,6 +62,16 @@ class Pop_up:
             self.entry3.grid(row=2, column=2,pady=2)
             self.frame.pack()
 
+        # Circle popup: create circle pattern
+        if(self.text_btn == "Create Circle"):
+            self.frame = Frame(self.master)
+            self.entry2 = Entry(self.frame, width=7)
+            self.lbl1 = Label(self.frame, text="Radius:")
+
+            self.lbl1.grid(row=1, column=1, pady=2)
+            self.entry2.grid(row=1, column=2, pady=2)
+            self.frame.pack()
+
 
         # button added for all popups
         self.button = Button(self.master, text=self.text_btn, command=self.button_clicked)
@@ -81,6 +91,8 @@ class Pop_up:
             self.manual_ctrl()
         elif(self.text_btn == "Create Helix"):
             self.create_helix()
+        elif(self.text_btn == "Create Circle"):
+            self.create_circle()
         self.close_popup()
 
     # runs the command to save the file
@@ -186,6 +198,15 @@ class Pop_up:
         
         start_coord = self.object.drone_tabs[0].start_coord
         waypoints = Patterns().helix(radius, height, start_coord, points_per_height)   # create waypoints
+
+        # save waypoints and save to csv file
+        self.object.drone_tabs[0].save_csv_file(waypoints)
+        self.object.drone_tabs[0].display_loaded_mission()
+
+    def create_circle(self):
+        radius = float(self.entry2.get())
+        start_coord = self.object.drone_tabs[0].start_coord
+        waypoints = Patterns().circle(radius, 15, start_coord, 10)
 
         # save waypoints and save to csv file
         self.object.drone_tabs[0].save_csv_file(waypoints)
