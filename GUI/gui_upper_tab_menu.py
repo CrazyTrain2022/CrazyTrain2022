@@ -58,6 +58,7 @@ class Gui_upper_tab_menu:
         mission_pattern.add_command(label="Helix", command=self.helix_pattern)
         mission_pattern.add_command(label="Figure8", command=self.run_figure8)
         mission_pattern.add_command(label="Hello world", command=self.run_hello_world)
+        mission_pattern.add_command(label="Circle", command=self.circle)
         mission_submenu.add_cascade(label="Pattern", menu=mission_pattern)
         mission_submenu.add_command(label="Follow the leader", command=self.run_follow_the_leader)
         mission_replicate = tk.Menu(menu_widget, tearoff=False)
@@ -223,6 +224,12 @@ class Gui_upper_tab_menu:
     def run_hello_world(self):
         os.system('gnome-terminal -- bash GUI/bash_scripts/run_hello_world.sh')
 
+    def circle(self):
+        pop_up_window = Tk() # window setup
+        pop_up_window.title("Load mission")
+        pop_up_window.geometry("350x120")
+
+        Pop_up(pop_up_window,"Circle pattern options", "Create Circle", self.gui_main_frame)
     # runs a bash script starts follow_the_leader
     # input: -
     # output: -
