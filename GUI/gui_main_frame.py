@@ -8,11 +8,11 @@ from PIL import Image, ImageTk
 from subprocess import Popen
 import os
 
-from gui_drone_tab import Gui_drone_tab
+from gui_drone_scroll_tab import Gui_drone_scroll_tab
 
 # Creating App class 
 # Label Widgets
-class Gui_mission:
+class Gui_main_frame:
     def __init__(self, master) -> None:
         # Instantiating master frame
         self.master = master
@@ -47,8 +47,10 @@ class Gui_mission:
 
         sim_btn = Button(pane_start_flight, text = "Start simulation", command=self.run_trajectory_simulation)
         sim_btn.grid(column=0, row=1, padx=5, pady=1)
+
         drone_btn = Button(pane_start_flight, text = "Start drone flight", command=self.run_flight)
         drone_btn.grid(column=1, row=1, padx=5, pady=1)
+
         flight_sim_btn = Button(pane_start_flight, text = "Start flight and simulation", command=self.run_flight_sim)
         flight_sim_btn.grid(column=0, row=2, columnspan=2, padx=5, pady=5)
 
@@ -90,12 +92,15 @@ class Gui_mission:
         else:
             Popen("python3 manual_control.py --t --manual", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
 
+    # start flight and simulation script by callin two bash scripts
+    # input: -
+    # output: -
     def run_flight_sim(self):
         if(self.autonomous):
             worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
             if(worked):
-                #os.system('gnome-terminal -- bash GUI/bash_scripts/start_flight.sh')
-                print("not implemented yet")
+                os.system('gnome-terminal -- bash GUI/bash_scripts/start_flight.sh')
+                os.system('gnome-terminal -- bash GUI/bash_scripts/start_sim.sh')
         else:
             #Popen("python3 manual_control.py --t --manual", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
             print("not implemented yet")
@@ -152,7 +157,7 @@ class Gui_mission:
             self.tabControl.add(tab, text="Drone "+str(drone_nr))
 
             # create tab
-            self.drone_tabs.append(Gui_drone_tab(tab, str(drone_nr), start_coord, self.yaw_option_showing))
+            self.drone_tabs.append(Gui_drone_scroll_tab(tab, str(drone_nr), start_coord, self.yaw_option_showing))
 
     # deletes tabs for drones not selected
     # input: [list] of selected drones

@@ -6,8 +6,8 @@ import os
 import glob
 import sys
 
-from gui_menu import Gui_menu
-from gui_mission import Gui_mission
+from gui_upper_tab_menu import Gui_upper_tab_menu
+from gui_main_frame import Gui_main_frame
 
 # Gui_app class is responsible for the GUI window
 class Gui_app:
@@ -23,10 +23,10 @@ class Gui_app:
         panedwindow.pack(fill=BOTH, expand=True)
 
         # create mission class, filling the mission frame
-        self.gui_mission = Gui_mission(pane_mission)
+        self.gui_mission = Gui_main_frame(pane_mission)
 
         # create menu
-        Gui_menu(master, self.gui_mission)
+        Gui_upper_tab_menu(master, self.gui_mission)
 
     # when destroyed, remove all unsaved points_csv files, but leaves the folders with saved missions
     def __del__(self):
