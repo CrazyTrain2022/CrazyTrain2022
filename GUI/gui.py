@@ -23,10 +23,10 @@ class Gui_app:
         panedwindow.pack(fill=BOTH, expand=True)
 
         # create mission class, filling the mission frame
-        self.gui_mission = Gui_main_frame(pane_mission)
+        self.gui_mane_frame = Gui_main_frame(pane_mission)
 
         # create menu
-        Gui_upper_tab_menu(master, self.gui_mission)
+        Gui_upper_tab_menu(master, self.gui_mane_frame)
 
     # when destroyed, remove all unsaved points_csv files, but leaves the folders with saved missions
     def __del__(self):

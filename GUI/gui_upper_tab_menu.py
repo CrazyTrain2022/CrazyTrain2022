@@ -12,14 +12,14 @@ import sys
 from pop_up import Pop_up
 
 # Creating class for Gui menu
-# Input: master frame and gui_mission instance
+# Input: master frame and gui_main_frame instance
 class Gui_upper_tab_menu:
-    def __init__(self, master_, gui_mission_) -> None:
+    def __init__(self, master_, gui_main_frame_) -> None:
         # Instantiating toplevel window
         self.master = master_
 
-        # save the instance of gui_mission
-        self.gui_mission = gui_mission_
+        # save the instance of gui_main_frame
+        self.gui_main_frame = gui_main_frame_
 
         # variable to keep track of if yaw option is showing or not
         self.yaw_option_showing = False
@@ -80,7 +80,7 @@ class Gui_upper_tab_menu:
         pop_up_window.title("Save mission")
         pop_up_window.geometry("250x100")
 
-        Pop_up(pop_up_window,"Enter a name for the save", "Save", self.gui_mission)
+        Pop_up(pop_up_window,"Enter a name for the save", "Save", self.gui_main_frame)
 
         
     # opens a popup for loading mission data from a previous save
@@ -91,7 +91,7 @@ class Gui_upper_tab_menu:
         pop_up_window.title("Load mission")
         pop_up_window.geometry("250x100")
 
-        Pop_up(pop_up_window,"Select mission to load", "Load", self.gui_mission)
+        Pop_up(pop_up_window,"Select mission to load", "Load", self.gui_main_frame)
 
 
     # opens a popup for deleting saves mission data
@@ -102,7 +102,7 @@ class Gui_upper_tab_menu:
         pop_up_window.title("Delete save")
         pop_up_window.geometry("250x100")
 
-        Pop_up(pop_up_window,"Select mission to remove", "Remove", self.gui_mission)
+        Pop_up(pop_up_window,"Select mission to remove", "Remove", self.gui_main_frame)
 
 
     # function to update if yaw column is available or not
@@ -112,11 +112,11 @@ class Gui_upper_tab_menu:
         if(self.yaw_option_showing): # show yaw option
             self.file_submen.entryconfigure(3, label="Show yaw option")
             self.yaw_option_showing = False
-            self.gui_mission.hide_yaw_option()
+            self.gui_main_frame.hide_yaw_option()
         else: # hide yaw option
             self.file_submen.entryconfigure(3, label="Hide yaw option")
             self.yaw_option_showing = True
-            self.gui_mission.show_yaw_option()
+            self.gui_main_frame.show_yaw_option()
     
     # runs a bash script that opens hover_swarm file to enable changing
     # controller and filter parameter
@@ -174,13 +174,13 @@ class Gui_upper_tab_menu:
 
         # delete tabs for drones not selected
         # does this till no tabs are deleted
-        # TODO: fix this in gui_mission to work properly
-        while(self.gui_mission.delete_drone_tabs_not_needed(selected_drones)):
+        # TODO: fix this in gui_main_frame to work properly
+        while(self.gui_main_frame.delete_drone_tabs_not_needed(selected_drones)):
             x = 1
 
         # make sure that there is a tab for each drone and with the correct starting coordinates
         for i in range(len(selected_drones)):
-            self.gui_mission.add_drone_tab(selected_drones[i], starting_coords[i])
+            self.gui_main_frame.add_drone_tab(selected_drones[i], starting_coords[i])
         
         
 
@@ -192,13 +192,13 @@ class Gui_upper_tab_menu:
         pop_up_window.title("Load mission")
         pop_up_window.geometry("350x100")
 
-        Pop_up(pop_up_window,"Which drone do you want to manually control?", "Take control", self.gui_mission)
+        Pop_up(pop_up_window,"Which drone do you want to manually control?", "Take control", self.gui_main_frame)
 
     # when the user deactivates manual control
     # input: -
     # output: -
     def manual_ctr_deactivated(self):
-        self.gui_mission.manual_ctrl_deactivated()
+        self.gui_main_frame.manual_ctrl_deactivated()
 
 
     # when a pattern creation option is pressed
@@ -209,7 +209,7 @@ class Gui_upper_tab_menu:
         pop_up_window.title("Load mission")
         pop_up_window.geometry("350x120")
 
-        Pop_up(pop_up_window,"Helix pattern options", "Create Helix", self.gui_mission)
+        Pop_up(pop_up_window,"Helix pattern options", "Create Helix", self.gui_main_frame)
 
     # runs a bash script that starts figure8
     # input: -
