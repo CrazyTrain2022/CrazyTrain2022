@@ -234,4 +234,4 @@ class Gui_upper_tab_menu:
     # input: -
     # output: -
     def run_follow_the_leader(self):
-        print("not implemented yet")
+        os.system('gnome-terminal -- bash GUI/bash_scripts/start_follow_the_leader.sh')
