@@ -44,7 +44,7 @@ opts = {
 }  
 
 # Read .csv file
-with open('indata.csv', 'r') as file:
+with open('GUI/points_csv/drone1waypoints.csv', 'r') as file:
     reader = csv.reader(file, skipinitialspace=True)
     points = np.empty((0,3),int)
     for coord in reader:

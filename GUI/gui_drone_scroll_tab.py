@@ -8,7 +8,7 @@ from numpy import genfromtxt
 
 import os
 from shutil import copyfile
-
+from subprocess import Popen
 from mission_point import Mission_point
 
 class Gui_drone_scroll_tab:
@@ -108,6 +108,9 @@ class Gui_drone_scroll_tab:
         self.points_np_array = np.delete(self.points_np_array, (0), axis=0) # remove starting position
         self.points_np_array = np.insert(self.points_np_array, (0), [0,0.01,self.points_np_array[0][2]], axis=0) # add point to rise to
         self.save_csv_file(self.points_np_array)
+        planner_on = False
+        if planner_on:
+            Popen("python3 run_rrt.py ", shell=True, cwd="Planner/")
         self.make_trajectory_file()
         return True
 
@@ -136,8 +139,11 @@ class Gui_drone_scroll_tab:
         print("Create trajectory for drone "+str(self.name))
         v_max = 1.5
         a_max = 1.5
-        waypoint_file = './GUI/points_csv/drone'+str(self.name)+'waypoints.csv'
-
+        planner_on = False
+        if planner_on:
+            waypoint_file = './Planner/utdata.csv'
+        else:
+            waypoint_file = './GUI/points_csv/drone'+str(self.name)+'waypoints.csv'
         # create local_waypoint file so the trajectories are made from the correct place
         global_waypoints = genfromtxt(waypoint_file, delimiter=',')
         local_waypoints = global_waypoints + self.start_coord
