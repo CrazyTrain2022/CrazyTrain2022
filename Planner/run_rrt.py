@@ -28,8 +28,8 @@ world_d = 5
 world = BoxWorld([[0, world_h], [0, world_w], [0, world_d]])
 
 # Define Obstacles (x,y,z,w,h,d)
-obs1 = np.array([4,6,0,2,2,1])
-obs2 = np.array([4,2,0,2,2,1])
+obs1 = np.array([0.5,0,0,0.01,10,2])
+obs2 = np.array([10,10,0,1,1,1])
 
 # Coordinates are closest to origo h,w,d is the box dim
 world.add_box(obs1[0], obs1[1], obs1[2], obs1[3], obs1[4], obs1[5])
@@ -44,7 +44,7 @@ opts = {
 }  
 
 # Read .csv file
-with open('GUI/points_csv/drone1waypoints.csv', 'r') as file:
+with open('../GUI/points_csv/drone3waypoints.csv', 'r') as file:
     reader = csv.reader(file, skipinitialspace=True)
     points = np.empty((0,3),int)
     for coord in reader:
