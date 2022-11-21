@@ -23,6 +23,7 @@ class Gui_main_frame:
 
         # bool to keep track if yaw column should be showing or not
         self.yaw_option_showing = False
+        self.rrt_on = False
 
         # mission pane definitions
         Label(master, text = "Crazytrain", font=("Helvetica", 25)).grid(column=0, row=0, padx=1, pady=1)
@@ -157,7 +158,7 @@ class Gui_main_frame:
             self.tabControl.add(tab, text="Drone "+str(drone_nr))
 
             # create tab
-            self.drone_tabs.append(Gui_drone_scroll_tab(tab, str(drone_nr), start_coord, self.yaw_option_showing))
+            self.drone_tabs.append(Gui_drone_scroll_tab(tab, str(drone_nr), start_coord, self.yaw_option_showing, self.rrt_on))
 
     # deletes tabs for drones not selected
     # input: [list] of selected drones

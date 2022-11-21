@@ -23,6 +23,7 @@ class Gui_upper_tab_menu:
 
         # variable to keep track of if yaw option is showing or not
         self.yaw_option_showing = False
+        self.rrt_on = False
 
         # # create the menu
         menu_widget = tk.Menu(self.master)
@@ -33,6 +34,7 @@ class Gui_upper_tab_menu:
         self.file_submen.add_command(label="Load mission", command=self.load_mission)
         self.file_submen.add_command(label="Remove saved missions", command=self.delete_saved_missions)
         self.file_submen.add_command(label="Show yaw option", command=self.yaw_option)
+        self.file_submen.add_command(label="RRT on option", command=self.rrt_option)
         self.file_submen.add_command(label="Change parameters", command=self.change_parameters)
         menu_widget.add_cascade(label="File", menu=self.file_submen)
 
@@ -118,6 +120,17 @@ class Gui_upper_tab_menu:
             self.file_submen.entryconfigure(3, label="Hide yaw option")
             self.yaw_option_showing = True
             self.gui_main_frame.show_yaw_option()
+
+    # function to update if yaw column is available or not
+    # input: -
+    # output: -
+    def rrt_option(self):
+        if(self.rrt_on): # show yaw option
+            self.file_submen.entryconfigure(4, label="RRT on option")
+            self.rrt_on = False
+        else: # hide yaw option
+            self.file_submen.entryconfigure(4, label="RRT off option")
+            self.rrt_on = True
     
     # runs a bash script that opens hover_swarm file to enable changing
     # controller and filter parameter

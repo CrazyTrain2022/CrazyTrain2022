@@ -12,13 +12,14 @@ from subprocess import Popen
 from mission_point import Mission_point
 
 class Gui_drone_scroll_tab:
-    def __init__(self, master, name_, start_coord_, show_yaw_) -> None:
+    def __init__(self, master, name_, start_coord_, show_yaw_, rrt_on_) -> None:
         self.connected = False
         self.battery_level = 0
         self.points_np_mtx = np.array([0.0,0.0,0.0])
         self.name = name_
         self.start_coord = start_coord_
         self.show_yaw = show_yaw_
+        self.rrt_on = rrt_on_
 
         Label(master, text = "Drone " + self.name, font=("Arial", 18)).grid(column=0, row=0)
 
@@ -108,9 +109,10 @@ class Gui_drone_scroll_tab:
         self.points_np_array = np.delete(self.points_np_array, (0), axis=0) # remove starting position
         self.points_np_array = np.insert(self.points_np_array, (0), [0,0.01,self.points_np_array[0][2]], axis=0) # add point to rise to
         self.save_csv_file(self.points_np_array)
-        planner_on = True
-        if planner_on:
+        #planner_on = True
+        if self.rrt_on:
             Popen("python3 run_rrt.py ", shell=True, cwd="Planner/")
+            print("running rrt")
         self.make_trajectory_file()
         return True
 
@@ -139,8 +141,9 @@ class Gui_drone_scroll_tab:
         print("Create trajectory for drone "+str(self.name))
         v_max = 1.5
         a_max = 1.5
-        planner_on = True
-        if planner_on:
+        #planner_on = True
+        if self.rrt_on:
+            print("using rrt")
             waypoint_file = './Planner/utdata.csv'
         else:
             waypoint_file = './GUI/points_csv/drone'+str(self.name)+'waypoints.csv'
