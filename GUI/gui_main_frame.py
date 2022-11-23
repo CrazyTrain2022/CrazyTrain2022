@@ -52,7 +52,7 @@ class Gui_main_frame:
         drone_btn = Button(pane_start_flight, text = "Start drone flight", command=self.run_flight)
         drone_btn.grid(column=1, row=1, padx=5, pady=1)
 
-        flight_sim_btn = Button(pane_start_flight, text = "Start flight and simulation", command=self.run_flight_sim)
+        flight_sim_btn = Button(pane_start_flight, text = "Start real-time simulation", command=self.run_real_time_sim)
         flight_sim_btn.grid(column=0, row=2, columnspan=2, padx=5, pady=5)
 
         # indicator for showing control mode active
@@ -96,12 +96,11 @@ class Gui_main_frame:
     # start flight and simulation script by callin two bash scripts
     # input: -
     # output: -
-    def run_flight_sim(self):
+    def run_real_time_sim(self):
         if(self.autonomous):
             worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
             if(worked):
-                os.system('gnome-terminal -- bash GUI/bash_scripts/start_sim_flight.sh && bash')
-                os.system('gnome-terminal -- bash GUI/bash_scripts/start_flight.sh && bash')
+                os.system('gnome-terminal -- bash GUI/bash_scripts/start_real_time_sim.sh')
         else:
             #Popen("python3 manual_control.py --t --manual", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
             print("not implemented yet")
