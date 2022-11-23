@@ -148,14 +148,15 @@ class Gui_drone_scroll_tab:
         else:
             waypoint_file = './GUI/points_csv/drone'+str(self.name)+'waypoints.csv'
         # create local_waypoint file so the trajectories are made from the correct place
-        global_waypoints = genfromtxt(waypoint_file, delimiter=',')
-        local_waypoints = global_waypoints + self.start_coord
-        waypoint_file_local = 'GUI/points_csv/drone'+str(self.name)+'waypoints_local.csv'
+        local_waypoints = genfromtxt(waypoint_file, delimiter=',')
+        global_waypoints = local_waypoints + self.start_coord
+        #global_waypoints = local_waypoints
+        waypoint_file_global = 'GUI/points_csv/drone'+str(self.name)+'waypoints_global.csv'
 
         # create new local_drone*waypoints.csv file
-        np.savetxt(waypoint_file_local, X=local_waypoints, delimiter=',', fmt='%10.3f')
+        np.savetxt(waypoint_file_global, X=global_waypoints, delimiter=',', fmt='%10.3f')
         trajectory_file = './crazyswarm/ros_ws/src/crazyswarm/scripts/drone'+str(self.name)+'trajectory.csv'
-        os.system('./uav_trajectories/build/genTrajectory -i ' + waypoint_file_local + ' --v_max ' + str(v_max) + ' --a_max ' + str(a_max) + ' -o ' + trajectory_file)
+        os.system('./uav_trajectories/build/genTrajectory -i ' + waypoint_file_global + ' --v_max ' + str(v_max) + ' --a_max ' + str(a_max) + ' -o ' + trajectory_file)
 
         # add yaw to the trajectory file if the yaw option is active
         if(self.show_yaw):
