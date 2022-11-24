@@ -20,20 +20,20 @@ parser.add_argument('--obs', action='store_true') #Includes boxes in simulation
 args = parser.parse_args()
 
 # Define surronding world (width, height, depth)
-world_h = 10
-world_w = 10
-world_d = 5
+VISIONEN_X_DIM = 11.70
+VISIONEN_Y_DIM = 11.70
+VISIONEN_Z_DIM = 3.0
 
 # Create the surronding world as an object BoxWorld
-world = BoxWorld([[0, world_h], [0, world_w], [0, world_d]])
+world = BoxWorld([[-VISIONEN_X_DIM/2, VISIONEN_X_DIM/2], [-VISIONEN_Y_DIM/2, VISIONEN_Y_DIM/2], [0, VISIONEN_Z_DIM]])
 
 # Define Obstacles (x,y,z,w,h,d)
-obs1 = np.array([0.5,0,0,0.01,10,2])
-obs2 = np.array([10,10,0,1,1,1])
+obs1 = np.array([0,1,0,2,1,1])
+#obs2 = np.array([1,10,0,1,1,1])
 
 # Coordinates are closest to origo h,w,d is the box dim
 world.add_box(obs1[0], obs1[1], obs1[2], obs1[3], obs1[4], obs1[5])
-world.add_box(obs2[0], obs2[1], obs2[2], obs2[3], obs2[4], obs2[5])
+#world.add_box(obs2[0], obs2[1], obs2[2], obs2[3], obs2[4], obs2[5])
 
 # Define planner options
 opts = {
@@ -78,28 +78,28 @@ for i in range(0, len(points) - 1):
     path = np.concatenate((path,path_section[:,1:]), axis=1)
 
 # Creating a .csv file with complete path
-with open('utdata.csv','w') as file:
+with open('drone1trajectory.csv','w') as file:
     writer = csv.writer(file)
     for i in range(0,len(path[0])):
         row = [path[0][i],path[1][i],path[2][i]]
         writer.writerow(row)
 
 # Simulation of obstacles and the calculated path (if --sim has been called)
-if args.sim:
-    # Plot world
-    fig = plt.figure()
-    ax = Axes3D(fig)
-    ax.axes.set_xlim(0,world_w)
-    ax.axes.set_ylim(0,world_h)
-    ax.axes.set_zlim(0,world_d)
+# if args.sim:
+#     # Plot world
+#     fig = plt.figure()
+#     ax = Axes3D(fig)
+#     ax.axes.set_xlim(0,world_w)
+#     ax.axes.set_ylim(0,world_h)
+#     ax.axes.set_zlim(0,world_d)
 
-    # Plot Obstacle (if --obs has been called)
-    if args.obs:
-        ax.voxels(add_obs(obs1[0], obs1[1], obs1[2], obs1[3], obs1[4], obs1[5]), facecolors='red', zorder = 0)
-        ax.voxels(add_obs(obs2[0], obs2[1], obs2[2], obs2[3], obs2[4], obs2[5]), facecolors='blue', zorder = 1)
+#     # Plot Obstacle (if --obs has been called)
+#     if args.obs:
+#         ax.voxels(add_obs(obs1[0], obs1[1], obs1[2], obs1[3], obs1[4], obs1[5]), facecolors='red', zorder = 0)
+#         ax.voxels(add_obs(obs2[0], obs2[1], obs2[2], obs2[3], obs2[4], obs2[5]), facecolors='blue', zorder = 1)
 
-    # Plot path
-    ax.plot(path[0], path[1], path[2], color='black', linestyle ='dotted', zorder = 10)
+#     # Plot path
+#     ax.plot(path[0], path[1], path[2], color='black', linestyle ='dotted', zorder = 10)
 
-    # Show plot
-    plt.show()
+#     # Show plot
+#     plt.show()
