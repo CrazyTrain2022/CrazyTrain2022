@@ -25,11 +25,19 @@ VISIONEN_X_DIM = 11.70
 VISIONEN_Y_DIM = 11.70
 VISIONEN_Z_DIM = 3.0
 
+drone_number = sys.argv[1]
+x = sys.argv[2]
+y = sys.argv[3]
+z = sys.argv[4]
+w = sys.argv[5]
+h = sys.argv[6]
+d = sys.argv[7]
+
 # Create the surronding world as an object BoxWorld
 world = BoxWorld([[-VISIONEN_X_DIM/2, VISIONEN_X_DIM/2], [-VISIONEN_Y_DIM/2, VISIONEN_Y_DIM/2], [0, VISIONEN_Z_DIM]])
 
 # Define Obstacles (x,y,z,w,h,d)
-obs1 = np.array([0,1,0,2,1,1])
+obs1 = np.array([int(x),int(y),int(z),int(w),int(h),int(d)])
 #obs2 = np.array([1,10,0,1,1,1])
 
 # Coordinates are closest to origo h,w,d is the box dim
@@ -44,7 +52,7 @@ opts = {
     "K": 5000, # Maximum number of iterations, if eps < 0
 }  
 
-drone_number = sys.argv[1]
+
 # Read .csv file
 with open('../GUI/points_csv/drone'+str(drone_number)+'waypoints.csv', 'r') as file:
     reader = csv.reader(file, skipinitialspace=True)
