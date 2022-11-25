@@ -125,12 +125,16 @@ class Gui_upper_tab_menu:
     # input: -
     # output: -
     def rrt_option(self):
-        if(self.rrt_on): # show yaw option
+        if(self.rrt_on): # rrt on option
             self.file_submen.entryconfigure(4, label="RRT on option")
             self.rrt_on = False
+            self.gui_main_frame.planner_off_option()
+            print("off", self.rrt_on)
         else: # hide yaw option
             self.file_submen.entryconfigure(4, label="RRT off option")
             self.rrt_on = True
+            self.gui_main_frame.planner_on_option()
+            print("on", self.rrt_on)
     
     # runs a bash script that opens hover_swarm file to enable changing
     # controller and filter parameter

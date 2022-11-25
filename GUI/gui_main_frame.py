@@ -23,7 +23,7 @@ class Gui_main_frame:
 
         # bool to keep track if yaw column should be showing or not
         self.yaw_option_showing = False
-        self.rrt_on = False
+        self.rrt_option_on = False
 
         # mission pane definitions
         Label(master, text = "Crazytrain", font=("Helvetica", 25)).grid(column=0, row=0, padx=1, pady=1)
@@ -52,8 +52,14 @@ class Gui_main_frame:
         drone_btn = Button(pane_start_flight, text = "Start drone flight", command=self.run_flight)
         drone_btn.grid(column=1, row=1, padx=5, pady=1)
 
+        FTL_Formation_btn = Button(pane_start_flight, text = "Start Formation", command=self.run_FTL_Formation)
+        FTL_Formation_btn.grid(column=0, row=2, padx=5, pady=1)
+
+        FTL_Line_btn = Button(pane_start_flight, text = "Start Line Formation", command=self.run_FTL_Line)
+        FTL_Line_btn.grid(column=1, row=2, padx=5, pady=1)
+
         flight_sim_btn = Button(pane_start_flight, text = "Start real-time simulation", command=self.run_real_time_sim)
-        flight_sim_btn.grid(column=0, row=2, columnspan=2, padx=5, pady=5)
+        flight_sim_btn.grid(column=0, row=3, columnspan=2, padx=5, pady=5)
 
         # indicator for showing control mode active
         self.pane_man_ctrl = LabelFrame(master, text="Control mode" , width=200, height=200, relief=SUNKEN, )
@@ -66,7 +72,7 @@ class Gui_main_frame:
         self.control_image.grid(column=0, row=0, sticky="WE")
         self.pane_man_ctrl.grid_rowconfigure(0, weight=1)
         self.pane_man_ctrl.grid_columnconfigure(0, weight=1)
-        self.pane_man_ctrl.grid(column=0, row=3, padx=1, pady=1)
+        self.pane_man_ctrl.grid(column=0, row=4, padx=1, pady=1)
         
 
 
@@ -90,6 +96,27 @@ class Gui_main_frame:
             worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
             if(worked):
                 os.system('gnome-terminal -- bash GUI/bash_scripts/start_flight.sh')
+        else:
+            Popen("python3 manual_control.py --t --manual", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
+
+    # start flight script by callin a bash script
+    # input: -
+    # output: -
+    def run_FTL_Formation(self):
+        if(self.autonomous):
+            worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
+            if(worked):
+                os.system('gnome-terminal -- bash GUI/bash_scripts/start_FTL_Formation.sh')
+        else:
+            Popen("python3 manual_control.py --t --manual", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
+    # start flight script by callin a bash script
+    # input: -
+    # output: -
+    def run_FTL_Line(self):
+        if(self.autonomous):
+            worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
+            if(worked):
+                os.system('gnome-terminal -- bash GUI/bash_scripts/start_FTL_Line.sh')
         else:
             Popen("python3 manual_control.py --t --manual", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
 
@@ -144,6 +171,20 @@ class Gui_main_frame:
         for drone in self.drone_tabs:
             drone.hide_yaw_option()
 
+    # show yaw option for every drone tab
+    # input: -
+    # output: -
+    def planner_on_option(self):
+        for drone in self.drone_tabs:
+            drone.planner_on_option()
+
+    # hide yaw option for every drone tab
+    # input: -
+    # output: -
+    def planner_off_option(self):
+        for drone in self.drone_tabs:
+            drone.planner_off_option()
+
     # make sure that there is a tab for the drone
     # if there isn't one then create one
     # input: [int] drone number
@@ -155,7 +196,7 @@ class Gui_main_frame:
             self.tabControl.add(tab, text="Drone "+str(drone_nr))
 
             # create tab
-            self.drone_tabs.append(Gui_drone_scroll_tab(tab, str(drone_nr), start_coord, self.yaw_option_showing, self.rrt_on))
+            self.drone_tabs.append(Gui_drone_scroll_tab(tab, str(drone_nr), start_coord, self.yaw_option_showing, self.rrt_option_on))
 
     # deletes tabs for drones not selected
     # input: [list] of selected drones

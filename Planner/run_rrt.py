@@ -14,6 +14,18 @@ import sys
 from add_obs import add_obs
 from rrt import rrt_planner
 
+drone_number = sys.argv[1]
+print(drone_number)
+"""
+x = sys.argv[2]
+y = sys.argv[3]
+z = sys.argv[4]
+w = sys.argv[5]
+h = sys.argv[6]
+d = sys.argv[7]
+
+"""
+
 # Input arguments to the planner
 parser = argparse.ArgumentParser()
 parser.add_argument('--sim', action='store_true') #Activates simulation
@@ -25,19 +37,12 @@ VISIONEN_X_DIM = 11.70
 VISIONEN_Y_DIM = 11.70
 VISIONEN_Z_DIM = 3.0
 
-drone_number = sys.argv[1]
-x = sys.argv[2]
-y = sys.argv[3]
-z = sys.argv[4]
-w = sys.argv[5]
-h = sys.argv[6]
-d = sys.argv[7]
 
 # Create the surronding world as an object BoxWorld
 world = BoxWorld([[-VISIONEN_X_DIM/2, VISIONEN_X_DIM/2], [-VISIONEN_Y_DIM/2, VISIONEN_Y_DIM/2], [0, VISIONEN_Z_DIM]])
 
 # Define Obstacles (x,y,z,w,h,d)
-obs1 = np.array([int(x),int(y),int(z),int(w),int(h),int(d)])
+obs1 = np.array([1,1,1,1,1,1])
 #obs2 = np.array([1,10,0,1,1,1])
 
 # Coordinates are closest to origo h,w,d is the box dim
