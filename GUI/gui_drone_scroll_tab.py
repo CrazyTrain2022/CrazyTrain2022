@@ -111,7 +111,7 @@ class Gui_drone_scroll_tab:
         self.save_csv_file(self.points_np_array)
         #planner_on = True
         if self.rrt_on:
-            Popen("python3 run_rrt.py ", shell=True, cwd="Planner/")
+            Popen("python3 run_rrt.py "+str(self.name), shell=True, cwd="Planner/")
             print("running rrt")
         self.make_trajectory_file()
         return True
@@ -144,7 +144,7 @@ class Gui_drone_scroll_tab:
         #planner_on = True
         if self.rrt_on:
             print("using rrt")
-            waypoint_file = './Planner/utdata.csv'
+            waypoint_file = './Planner/drone'+str(self.name)+'rrttrajectory.csv'
         else:
             waypoint_file = './GUI/points_csv/drone'+str(self.name)+'waypoints.csv'
         # create local_waypoint file so the trajectories are made from the correct place

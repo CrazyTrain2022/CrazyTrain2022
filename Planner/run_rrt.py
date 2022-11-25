@@ -8,6 +8,7 @@ from mpl_toolkits.mplot3d import Axes3D
 from world import BoxWorld
 import csv
 import argparse
+import sys
 
 # Import functions for the planner
 from add_obs import add_obs
@@ -43,8 +44,9 @@ opts = {
     "K": 5000, # Maximum number of iterations, if eps < 0
 }  
 
+drone_number = sys.argv[1]
 # Read .csv file
-with open('../GUI/points_csv/drone3waypoints.csv', 'r') as file:
+with open('../GUI/points_csv/drone'+str(drone_number)+'waypoints.csv', 'r') as file:
     reader = csv.reader(file, skipinitialspace=True)
     points = np.empty((0,3),int)
     for coord in reader:
@@ -78,7 +80,7 @@ for i in range(0, len(points) - 1):
     path = np.concatenate((path,path_section[:,1:]), axis=1)
 
 # Creating a .csv file with complete path
-with open('drone1trajectory.csv','w') as file:
+with open('drone'+str(drone_number)+'rrttrajectory.csv','w') as file:
     writer = csv.writer(file)
     for i in range(0,len(path[0])):
         row = [path[0][i],path[1][i],path[2][i]]
