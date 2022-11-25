@@ -111,7 +111,40 @@ class Gui_drone_scroll_tab:
         self.save_csv_file(self.points_np_array)
         #planner_on = True
         if self.rrt_on:
-            Popen("python3 run_rrt.py ", shell=True, cwd="Planner/")
+            self.frame = Frame(self.master)
+            self.entry2 = Entry(self.frame, width=7)
+            self.entry3 = Entry(self.frame, width=7)
+            self.entry4 = Entry(self.frame, width=7)
+            self.entry5 = Entry(self.frame, width=7)
+            self.entry6 = Entry(self.frame, width=7)
+            self.entry7 = Entry(self.frame, width=7)
+            self.lbl1 = Label(self.frame, text="x")
+            self.lbl2 = Label(self.frame, text="y")
+            self.lbl3 = Label(self.frame, text="z")
+            self.lbl4 = Label(self.frame, text="w")
+            self.lbl5 = Label(self.frame, text="h")
+            self.lbl6 = Label(self.frame, text="d")
+            self.lbl1.grid(row=1, column=1, pady=2)
+            self.lbl2.grid(row=2, column=1, pady=2)
+            self.lbl3.grid(row=1, column=1, pady=2)
+            self.lbl4.grid(row=2, column=1, pady=2)
+            self.lbl5.grid(row=1, column=1, pady=2)
+            self.lbl6.grid(row=2, column=1, pady=2)
+            self.entry2.grid(row=1, column=2, pady=2)
+            self.entry3.grid(row=2, column=2,pady=2)
+            self.entry4.grid(row=1, column=2, pady=2)
+            self.entry5.grid(row=2, column=2,pady=2)
+            self.entry6.grid(row=1, column=2, pady=2)
+            self.entry7.grid(row=2, column=2,pady=2)
+            self.frame.pack()
+            # read user input
+            x = float(self.entry2.get()) 
+            y = float(self.entry3.get())
+            z = float(self.entry4.get()) 
+            w = float(self.entry5.get())
+            h = float(self.entry6.get()) 
+            d = float(self.entry7.get())
+            Popen("python3 run_rrt.py "+str(self.name)+str(x)+str(y)+str(z)+str(w)+str(h)+str(d), shell=True, cwd="Planner/")
             print("running rrt")
         self.make_trajectory_file()
         return True
@@ -144,7 +177,7 @@ class Gui_drone_scroll_tab:
         #planner_on = True
         if self.rrt_on:
             print("using rrt")
-            waypoint_file = './Planner/utdata.csv'
+            waypoint_file = './Planner/drone'+str(self.name)+'rrttrajectory.csv'
         else:
             waypoint_file = './GUI/points_csv/drone'+str(self.name)+'waypoints.csv'
         # create local_waypoint file so the trajectories are made from the correct place
