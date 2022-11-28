@@ -7,7 +7,7 @@ import tkinter as tk
 from subprocess import Popen
 import yaml
 import os
-import sys
+import sys                      #COMMENT: NOT USED
 
 from pop_up import Pop_up
 

@@ -1,7 +1,7 @@
 from tokenize import Pointfloat
 import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits import mplot3d
+import matplotlib.pyplot as plt     #COMMENT: NOT USED
+from mpl_toolkits import mplot3d    #COMMENT: NOT USED
 import sys
 
 def main(drone_traj, pos):

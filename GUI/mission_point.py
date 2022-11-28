@@ -5,9 +5,9 @@ from tkinter import ttk
 import tkinter as tk
 
 # global limits to which points can be entered
-X_MAX = 2.5
-Y_MAX = 2.5
-Z_MAX = 3.5
+X_MAX = 2.5     #COMMENT: NEEDS TO BE CHANGED
+Y_MAX = 2.5     #COMMENT: NEEDS TO BE CHANGED
+Z_MAX = 3.5     #COMMENT: NEEDS TO BE CHANGED
 
 # class for handling waypoints. 
 class Mission_point:

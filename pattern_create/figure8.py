@@ -2,6 +2,8 @@ import numpy as np
 
 print("Adding fig8")
 
+#COMMENT: NEEDS COMMENTING
+
 waypoints = np.genfromtxt("waypoints.csv", delimiter=',')
 last_pos = waypoints[-1,:]
 

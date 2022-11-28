@@ -4,6 +4,8 @@ import csv
 import matplotlib.pyplot as plt
 import math
 
+#COMMENT: NEEDS COMMENT AND CLEAN UP?
+
 if __name__ == "__main__":
     file = open('test23.csv')
     csv_reader = csv.reader(file)

@@ -3,6 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits import mplot3d
 
+#COMMENT: THIS FILE NEEDS SOME COMMENT.
+
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 

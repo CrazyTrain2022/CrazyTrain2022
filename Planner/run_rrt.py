@@ -3,7 +3,7 @@
 # Import dependencies from packages
 from random import sample
 import numpy as np
-import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt     #COMMENT: ADD "PLOT_MODE = false" or remove uncommented code
 from mpl_toolkits.mplot3d import Axes3D
 from world import BoxWorld
 import csv
@@ -16,7 +16,7 @@ from rrt import rrt_planner
 
 drone_number = sys.argv[1]
 print(drone_number)
-"""
+""" #COMMENT: REMOVE?
 x = sys.argv[2]
 y = sys.argv[3]
 z = sys.argv[4]
@@ -98,6 +98,9 @@ with open('drone'+str(drone_number)+'rrttrajectory.csv','w') as file:
     for i in range(0,len(path[0])):
         row = [path[0][i],path[1][i],path[2][i]]
         writer.writerow(row)
+
+
+#COMMENT: REMOVE?
 
 # Simulation of obstacles and the calculated path (if --sim has been called)
 # if args.sim:

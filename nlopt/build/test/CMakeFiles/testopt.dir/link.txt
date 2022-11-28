@@ -1,1 +1,0 @@
-/usr/bin/c++  -std=c++11  -O3 -DNDEBUG  -rdynamic CMakeFiles/testopt.dir/testfuncs.c.o CMakeFiles/testopt.dir/testopt.c.o CMakeFiles/testopt.dir/__/src/util/timer.c.o CMakeFiles/testopt.dir/__/src/util/mt19937ar.c.o  -o testopt  -Wl,-rpath,/home/crazycrowd/crazycrowd/visionen/nlopt/build ../libnlopt.so.0.11.0 -lm 

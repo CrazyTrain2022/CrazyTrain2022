@@ -1,1 +1,0 @@
-/usr/bin/c++   -Wall -Wextra  -rdynamic CMakeFiles/genTrajectory.dir/src/genTrajectory.cpp.o  -o genTrajectory  /usr/lib/x86_64-linux-gnu/libboost_program_options.so.1.71.0 /usr/lib/x86_64-linux-gnu/libboost_filesystem.so.1.71.0 libmav_trajectory_generation.a -lglog -lnlopt 

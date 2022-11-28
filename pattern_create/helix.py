@@ -1,9 +1,11 @@
 from tokenize import Pointfloat
 import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits import mplot3d
+import matplotlib.pyplot as plt     #COMMENT: NOT USED
+from mpl_toolkits import mplot3d    #COMMENT: NOT USED
 
-plot = False
+plot = False    #COMMENT: NOT USED
+
+#COMMENT: NEED SOME COMMENTING
 
 print("Adding helix")
 

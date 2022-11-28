@@ -6,14 +6,16 @@ Created on Tue Nov 22 10:04:05 2022
 @author: patli821
 """
 
+#COMMENT: CLEAN UP FILE. 
+
 # %% Imports
 from random import sample
 import numpy as np
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-from mpl_toolkits import mplot3d
+from mpl_toolkits.mplot3d import Axes3D     #COMMENT: NOT USED
+from mpl_toolkits import mplot3d            #COMMENT: NOT USED
 from add_obs import add_obs
-#from misc import Timer
+#from misc import Timer 
 from world import BoxWorld
 
 
