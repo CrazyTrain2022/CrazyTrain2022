@@ -1,0 +1,14 @@
+<QTM_Body_File_Ver_1.00>
+    <Body>
+        <Name>L-frame</Name>
+        <Color R="0" G="192" B="0"/>
+        <Points>
+            <Point X="7.630301" Y="-91.430879" Z="-0.042872" Virtual="0" Name="L-frame - 1"/>
+            <Point X="373.990431" Y="-91.855015" Z="-0.022997" Virtual="0" Name="L-frame - 2"/>
+            <Point X="-189.240533" Y="275.103434" Z="0.038139" Virtual="0" Name="L-frame - 3"/>
+            <Point X="-192.380199" Y="-91.817540" Z="0.027731" Virtual="0" Name="L-frame - 4"/>
+        </Points>
+        <Data_origin X="0.000000" Y="0.000000" Z="0.000000" Relative_body="1">0</Data_origin>
+        <Data_orientation R11="1.000000" R12="0.000000" R13="0.000000" R21="0.000000" R22="1.000000" R23="0.000000" R31="0.000000" R32="0.000000" R33="1.000000" Relative_body="1">0</Data_orientation>
+    </Body>
+</QTM_Body_File_Ver_1.00>

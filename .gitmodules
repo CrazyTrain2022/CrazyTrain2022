@@ -1,0 +1,3 @@
+[submodule "crazyswarm"]
+	path = crazyswarm
+	url = git@github.com:CrazyTrain2022/crazyswarm.git
