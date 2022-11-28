@@ -217,7 +217,7 @@ class Gui_drone_scroll_tab:
             self.make_yaw_csv(yaw_np)
             os.system('python3 crazyswarm/ros_ws/src/crazyswarm/scripts/yaw_generation.py crazyswarm/ros_ws/src/crazyswarm/scripts/drone' + str(self.name) + 'trajectory.csv GUI/points_csv/drone' + str(self.name) + 'yaw.csv ' + str(self.name))
             
-
+        print("done with traj")
     # saves its csv file into a folder in the save_missions dir
     # input: [string] the destinated folder which to save the file in
     # output: -
