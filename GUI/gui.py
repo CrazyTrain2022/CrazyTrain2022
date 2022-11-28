@@ -47,7 +47,7 @@ if __name__ == "__main__":
     # window setup
     window = Tk()
     window.title("Crazytrain - GUI")
-    window.geometry("400x600")
+    window.geometry("400x700")
 
     # fullscreen if flag from user
     if("--fullscreen" in flags):

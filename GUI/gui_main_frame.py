@@ -53,13 +53,13 @@ class Gui_main_frame:
         drone_btn.grid(column=1, row=1, padx=5, pady=1)
 
         FTL_Formation_btn = Button(pane_start_flight, text = "Start Formation", command=self.run_FTL_Formation)
-        FTL_Formation_btn.grid(column=0, row=2, padx=5, pady=1)
+        FTL_Formation_btn.grid(column=0, row=2, columnspan=2, padx=5, pady=5)
 
         FTL_Line_btn = Button(pane_start_flight, text = "Start Line Formation", command=self.run_FTL_Line)
-        FTL_Line_btn.grid(column=1, row=2, padx=5, pady=1)
+        FTL_Line_btn.grid(column=0, row=3, columnspan=2, padx=5, pady=5)
 
         flight_sim_btn = Button(pane_start_flight, text = "Start real-time simulation", command=self.run_real_time_sim)
-        flight_sim_btn.grid(column=0, row=3, columnspan=2, padx=5, pady=5)
+        flight_sim_btn.grid(column=0, row=4, columnspan=2, padx=5, pady=5)
 
         # indicator for showing control mode active
         self.pane_man_ctrl = LabelFrame(master, text="Control mode" , width=200, height=200, relief=SUNKEN, )
@@ -72,7 +72,7 @@ class Gui_main_frame:
         self.control_image.grid(column=0, row=0, sticky="WE")
         self.pane_man_ctrl.grid_rowconfigure(0, weight=1)
         self.pane_man_ctrl.grid_columnconfigure(0, weight=1)
-        self.pane_man_ctrl.grid(column=0, row=4, padx=1, pady=1)
+        self.pane_man_ctrl.grid(column=0, row=5, padx=1, pady=1)
         
 
 
