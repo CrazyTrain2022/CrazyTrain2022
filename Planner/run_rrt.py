@@ -42,7 +42,7 @@ VISIONEN_Z_DIM = 3.0
 world = BoxWorld([[-VISIONEN_X_DIM/2, VISIONEN_X_DIM/2], [-VISIONEN_Y_DIM/2, VISIONEN_Y_DIM/2], [0, VISIONEN_Z_DIM]])
 
 # Define Obstacles (x,y,z,w,h,d)
-obs1 = np.array([1,1,1,1,1,1])
+obs1 = np.array([1,-2,0,1,1.5,3])
 #obs2 = np.array([1,10,0,1,1,1])
 
 # Coordinates are closest to origo h,w,d is the box dim
