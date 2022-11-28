@@ -43,6 +43,7 @@ class Gui_upper_tab_menu:
         drone_submen.add_command(label="Select drones", command=self.select_drones)
         drone_submen.add_command(label="Start ROS server", command=self.start_ros_server)
         drone_submen.add_command(label="Start hover swarm", command=self.start_hover_swarm)
+        drone_submen.add_command(label="Start Qualisys node", command=self.start_qualisys_node)
         drone_submen.add_command(label="Start mocap helper", command=self.start_mocap_helper)
         drone_submen.add_command(label="Show drone position", command=self.drone_position)
         drone_submen.add_command(label="Update", command=self.update_drone_tabs)
@@ -160,6 +161,12 @@ class Gui_upper_tab_menu:
     # output: -
     def start_hover_swarm(self):
         os.system('gnome-terminal -- bash GUI/bash_scripts/start_hover_swarm.sh')
+
+    # runs a bash script that starts hover_swarm
+    # input: -
+    # output: -
+    def start_qualisys_node(self):
+        os.system('gnome-terminal -- bash GUI/bash_scripts/start_qualisys_node.sh')
 
     # runs a bash script that starts mocap_helper
     # input: -
