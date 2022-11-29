@@ -13,6 +13,7 @@ from mission_point import Mission_point
 from pop_up import Pop_up
 
 
+
 class Gui_drone_scroll_tab:
     def __init__(self, master, name_, start_coord_, show_yaw_, rrt_on_) -> None:
         self.connected = False
@@ -153,7 +154,8 @@ class Gui_drone_scroll_tab:
             self.button = Button(pop_up_window, text="save", command=self.set_obstacle)
             self.button.pack(pady=2)
             """
-            Popen("python3 run_rrt.py "+str(self.name), shell=True, cwd="Planner/")
+            #Popen("python3 run_rrt.py "+str(self.name), shell=True, cwd="Planner/")
+            Popen("python3 run_rrt.py", shell=True, cwd="GUI/Planner/")
 
         self.make_trajectory_file()
         return True
@@ -196,7 +198,7 @@ class Gui_drone_scroll_tab:
         print("before rrt")
         if self.rrt_on:
             print("using rrt")
-            waypoint_file = './Planner/drone'+str(self.name)+'rrttrajectory.csv'
+            waypoint_file = './GUI/Planner/drone'+str(self.name)+'rrttrajectory.csv'
         else:
             waypoint_file = './GUI/points_csv/drone'+str(self.name)+'waypoints.csv'
         # create local_waypoint file so the trajectories are made from the correct place
@@ -205,11 +207,13 @@ class Gui_drone_scroll_tab:
         #global_waypoints = local_waypoints
         waypoint_file_global = 'GUI/points_csv/drone'+str(self.name)+'waypoints_global.csv'
 
+        print("Creating trajectory")
         # create new local_drone*waypoints.csv file
         np.savetxt(waypoint_file_global, X=global_waypoints, delimiter=',', fmt='%10.3f')
         trajectory_file = './crazyswarm/ros_ws/src/crazyswarm/scripts/drone'+str(self.name)+'trajectory.csv'
         os.system('./uav_trajectories/build/genTrajectory -i ' + waypoint_file_global + ' --v_max ' + str(v_max) + ' --a_max ' + str(a_max) + ' -o ' + trajectory_file)
-
+        print("Trajectory created.")
+        
         # add yaw to the trajectory file if the yaw option is active
         if(self.show_yaw):
             print("adding yaw")
