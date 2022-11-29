@@ -74,8 +74,6 @@ class Gui_main_frame:
         self.pane_man_ctrl.grid_columnconfigure(0, weight=1)
         self.pane_man_ctrl.grid(column=0, row=5, padx=1, pady=1)
         
-
-
     # function for starting simulation from the terminal
     # input: -
     # output: -
@@ -86,7 +84,6 @@ class Gui_main_frame:
                 Popen("python3 gui_simulate.py --sim", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
         else:
             Popen("python3 manual_control.py --sim --manual", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
-
 
     # start flight script by callin a bash script
     # input: -
@@ -99,7 +96,7 @@ class Gui_main_frame:
         else:
             Popen("python3 manual_control.py --t --manual", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
 
-    # start flight script by callin a bash script
+    # start follow the leader formation by callin a bash script
     # input: -
     # output: -
     def run_FTL_Formation(self):
@@ -109,7 +106,8 @@ class Gui_main_frame:
                 os.system('gnome-terminal -- bash GUI/bash_scripts/start_FTL_Formation.sh')
         else:
             Popen("python3 manual_control.py --t --manual", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
-    # start flight script by callin a bash script
+
+    # start follow the leader line by callin a bash script
     # input: -
     # output: -
     def run_FTL_Line(self):
@@ -120,7 +118,7 @@ class Gui_main_frame:
         else:
             Popen("python3 manual_control.py --t --manual", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
 
-    # start flight and simulation script by callin two bash scripts
+    # start real time simulation by calling a bash script
     # input: -
     # output: -
     def run_real_time_sim(self):
@@ -171,14 +169,14 @@ class Gui_main_frame:
         for drone in self.drone_tabs:
             drone.hide_yaw_option()
 
-    # show yaw option for every drone tab
+    # Planner on option for every drone tab
     # input: -
     # output: -
     def planner_on_option(self):
         for drone in self.drone_tabs:
             drone.planner_on_option()
 
-    # hide yaw option for every drone tab
+    # Planner off option for every drone tab
     # input: -
     # output: -
     def planner_off_option(self):
@@ -222,13 +220,12 @@ class Gui_main_frame:
             lst.append(tab.name)
         return lst
 
-    # runs bash script to send ROS topic of emergency landing
+    # runs bash script to emergency land
     # input: -
     # output: -
     def emergency_pressed(self):
         print("Emergency pressed")
         os.system('gnome-terminal -- bash GUI/bash_scripts/emergency.sh')
-
 
     # enabled manual control of a drone
     # input: -

@@ -7,7 +7,6 @@ import tkinter as tk
 from subprocess import Popen
 import yaml
 import os
-import sys
 
 from pop_up import Pop_up
 
@@ -63,7 +62,6 @@ class Gui_upper_tab_menu:
         mission_pattern.add_command(label="Hello world", command=self.run_hello_world)
         mission_pattern.add_command(label="Circle", command=self.circle)
         mission_submenu.add_cascade(label="Pattern", menu=mission_pattern)
-        mission_submenu.add_command(label="Follow the leader", command=self.run_follow_the_leader)
         mission_replicate = tk.Menu(menu_widget, tearoff=False)
 
         menu_widget.add_cascade(label="Missions", menu=mission_submenu)
@@ -122,7 +120,7 @@ class Gui_upper_tab_menu:
             self.yaw_option_showing = True
             self.gui_main_frame.show_yaw_option()
 
-    # function to update if yaw column is available or not
+    # function to update rrt
     # input: -
     # output: -
     def rrt_option(self):
@@ -162,7 +160,7 @@ class Gui_upper_tab_menu:
     def start_hover_swarm(self):
         os.system('gnome-terminal -- bash GUI/bash_scripts/start_hover_swarm.sh')
 
-    # runs a bash script that starts hover_swarm
+    # runs a bash script that starts position node from qualisys
     # input: -
     # output: -
     def start_qualisys_node(self):
@@ -254,8 +252,3 @@ class Gui_upper_tab_menu:
         pop_up_window.geometry("350x120")
 
         Pop_up(pop_up_window,"Circle pattern options", "Create Circle", self.gui_main_frame)
-    # runs a bash script starts follow_the_leader
-    # input: -
-    # output: -
-    def run_follow_the_leader(self):
-        os.system('gnome-terminal -- bash GUI/bash_scripts/start_follow_the_leader.sh')

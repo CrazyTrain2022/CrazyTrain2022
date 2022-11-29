@@ -25,7 +25,7 @@ class Gui_app:
         # create mission class, filling the mission frame
         self.gui_mane_frame = Gui_main_frame(pane_mission)
 
-        # create menu
+        # create upper tab menu
         Gui_upper_tab_menu(master, self.gui_mane_frame)
 
     # when destroyed, remove all unsaved points_csv files, but leaves the folders with saved missions

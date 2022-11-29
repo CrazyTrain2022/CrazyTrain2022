@@ -95,9 +95,6 @@ class Gui_drone_scroll_tab:
     # when a pattern creation option is pressed
     # input: -
     # output: -
-
-
-
     # saves the points from the tab in an np.array
     # input: -
     # output: [bool] True or False depending on if the trajectory was created properly
@@ -117,58 +114,13 @@ class Gui_drone_scroll_tab:
         self.points_np_array = np.delete(self.points_np_array, (0), axis=0) # remove starting position
         self.points_np_array = np.insert(self.points_np_array, (0), [0,0.01,self.points_np_array[0][2]], axis=0) # add point to rise to
         self.save_csv_file(self.points_np_array)
-        #planner_on = True
         print("rrt_on", self.rrt_on)
         if self.rrt_on:
             print("in rrt entry")
-            """
-            pop_up_window = Tk() # window setup
-            pop_up_window.title("Obstacle")
-            pop_up_window.geometry("350x400")
-            self.frame = Frame(pop_up_window)
-            self.entry2 = Entry(self.frame, width=7)
-            self.entry3 = Entry(self.frame, width=7)
-            self.entry4 = Entry(self.frame, width=7)
-            self.entry5 = Entry(self.frame, width=7)
-            self.entry6 = Entry(self.frame, width=7)
-            self.entry7 = Entry(self.frame, width=7)
-            self.lbl1 = Label(self.frame, text="x")
-            self.lbl2 = Label(self.frame, text="y")
-            self.lbl3 = Label(self.frame, text="z")
-            self.lbl4 = Label(self.frame, text="w")
-            self.lbl5 = Label(self.frame, text="h")
-            self.lbl6 = Label(self.frame, text="d")
-            self.lbl1.grid(row=1, column=1, pady=2)
-            self.lbl2.grid(row=2, column=1, pady=2)
-            self.lbl3.grid(row=3, column=1, pady=2)
-            self.lbl4.grid(row=4, column=1, pady=2)
-            self.lbl5.grid(row=5, column=1, pady=2)
-            self.lbl6.grid(row=6, column=1, pady=2)
-            self.entry2.grid(row=1, column=2, pady=2)
-            self.entry3.grid(row=2, column=2,pady=2)
-            self.entry4.grid(row=3, column=2, pady=2)
-            self.entry5.grid(row=4, column=2,pady=2)
-            self.entry6.grid(row=5, column=2, pady=2)
-            self.entry7.grid(row=6, column=2,pady=2)
-            self.frame.pack()
-            self.button = Button(pop_up_window, text="save", command=self.set_obstacle)
-            self.button.pack(pady=2)
-            """
             #Popen("python3 run_rrt.py "+str(self.name), shell=True, cwd="Planner/")
             Popen("python3 run_rrt.py", shell=True, cwd="GUI/Planner/")
-
         self.make_trajectory_file()
         return True
-
-    def set_obstacle(self):
-            x = float(self.entry2.get())
-            y = float(self.entry3.get())
-            z = float(self.entry4.get())
-            w = float(self.entry5.get())
-            h = float(self.entry6.get()) 
-            d = float(self.entry7.get())
-            Popen("python3 run_rrt.py "+str(self.name)+str(x)+str(y)+str(z)+str(w)+str(h)+str(d), shell=True, cwd="Planner/")
-            print("running rrt")
 
     # function to update scrollbar when mission points are added/removed
     # input: -
@@ -185,7 +137,6 @@ class Gui_drone_scroll_tab:
         print("working")
         np.savetxt('GUI/points_csv/drone'+ str(self.name)+'waypoints.csv', X=waypoints, delimiter=',', fmt='%10.3f')
 
-
     # use waypoint CSV file to make trajectory CSV file
     # also handles some global vs local coordinates
     # input: -
@@ -194,7 +145,6 @@ class Gui_drone_scroll_tab:
         print("Create trajectory for drone "+str(self.name))
         v_max = 1.5
         a_max = 1.5
-        #planner_on = True
         print("before rrt")
         if self.rrt_on:
             print("using rrt")
@@ -222,6 +172,7 @@ class Gui_drone_scroll_tab:
             os.system('python3 crazyswarm/ros_ws/src/crazyswarm/scripts/yaw_generation.py crazyswarm/ros_ws/src/crazyswarm/scripts/drone' + str(self.name) + 'trajectory.csv GUI/points_csv/drone' + str(self.name) + 'yaw.csv ' + str(self.name))
             
         print("done with traj")
+        
     # saves its csv file into a folder in the save_missions dir
     # input: [string] the destinated folder which to save the file in
     # output: -
@@ -310,13 +261,14 @@ class Gui_drone_scroll_tab:
         self.show_yaw = False
         for point in self.points_entry_lst:
             point.hide_yaw()
-        # show yaw option for drone
+
+    # Planner on option for drone
     # input: -
     # output: -
     def planner_on_option(self):
         self.rrt_on = True
 
-    # hide yaw option for drone
+    # Planner off option for drone
     # input: -
     # output: -
     def planner_off_option(self):
