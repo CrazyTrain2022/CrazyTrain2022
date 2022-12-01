@@ -29,12 +29,17 @@ class Gui_upper_tab_menu:
 
         # file menu
         self.file_submen = tk.Menu(menu_widget, tearoff=False)
+        self.file_parameters = tk.Menu(menu_widget, tearoff=False)
         self.file_submen.add_command(label="Save mission", command=self.save_mission)
         self.file_submen.add_command(label="Load mission", command=self.load_mission)
         self.file_submen.add_command(label="Remove saved missions", command=self.delete_saved_missions)
         self.file_submen.add_command(label="Show yaw option", command=self.yaw_option)
         self.file_submen.add_command(label="RRT on option", command=self.rrt_option)
-        self.file_submen.add_command(label="Change parameters", command=self.change_parameters)
+        self.file_parameters.add_command(label="Change controller", command=self.change_controller)
+        self.file_parameters.add_command(label="Change controller parameters", command=self.change_parameters)
+        self.file_parameters.add_command(label="Catkin make", command=self.catkin_make)
+
+        self.file_submen.add_cascade(label="Change parameters", menu=self.file_parameters)
         menu_widget.add_cascade(label="File", menu=self.file_submen)
 
         # drone menu
@@ -56,15 +61,16 @@ class Gui_upper_tab_menu:
 
         # mission menu
         mission_submenu = tk.Menu(menu_widget, tearoff=False)
+        mission_mission = tk.Menu(menu_widget, tearoff=False)
         mission_pattern = tk.Menu(menu_widget, tearoff=False)
+        mission_mission.add_command(label="Figure8", command=self.run_figure8)
+        mission_mission.add_command(label="Hello world", command=self.run_hello_world)
         mission_pattern.add_command(label="Helix", command=self.helix_pattern)
-        mission_pattern.add_command(label="Figure8", command=self.run_figure8)
-        mission_pattern.add_command(label="Hello world", command=self.run_hello_world)
         mission_pattern.add_command(label="Circle", command=self.circle)
-        mission_submenu.add_cascade(label="Pattern", menu=mission_pattern)
-        mission_replicate = tk.Menu(menu_widget, tearoff=False)
+        mission_submenu.add_cascade(label="Missions", menu=mission_mission)
+        mission_submenu.add_cascade(label="Patterns", menu=mission_pattern)
 
-        menu_widget.add_cascade(label="Missions", menu=mission_submenu)
+        menu_widget.add_cascade(label="Missions and Patterns", menu=mission_submenu)
         
         self.master.config(menu=menu_widget)
 
@@ -139,9 +145,22 @@ class Gui_upper_tab_menu:
     # controller and filter parameter
     # input: -
     # output: -
+    def change_controller(self):
+        os.system('gnome-terminal -- bash GUI/bash_scripts/change_controller.sh')
+    
+    # runs a bash script that opens crazyflieTypes file to enable changing
+    # controller parameters
+    # input: -
+    # output: -
     def change_parameters(self):
         os.system('gnome-terminal -- bash GUI/bash_scripts/change_parameters.sh')
-        
+
+    # runs a bash script that does catkin_make
+    # input: -
+    # output: -
+    def catkin_make(self):
+        os.system('gnome-terminal -- bash GUI/bash_scripts/catkin_make.sh')
+            
     # runs a bash script that calls crazyswarm chooser.py script to select drones
     # input: -
     # output: -
