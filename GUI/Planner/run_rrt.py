@@ -14,17 +14,6 @@ import sys
 from add_obs import add_obs
 from rrt import rrt_planner
 
-#drone_number = sys.argv[1]
-#print(drone_number)
-"""
-x = sys.argv[2]
-y = sys.argv[3]
-z = sys.argv[4]
-w = sys.argv[5]
-h = sys.argv[6]
-d = sys.argv[7]
-
-"""
 def run_planner():
     # Input arguments to the planner
     # parser = argparse.ArgumentParser()
