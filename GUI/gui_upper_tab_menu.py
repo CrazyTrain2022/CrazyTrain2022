@@ -197,9 +197,9 @@ class Gui_upper_tab_menu:
     # input: -
     # output: -
     def run_hello_world(self):
-        if(self.gui_main_frame.autonomous and not self.gui_main_frame.simulation):
+        if(self.gui_main_frame.autonomous and not self.gui_main_frame.simulation.get()):
             os.system('gnome-terminal -- bash GUI/bash_scripts/run_hello_world.sh')
-        elif(self.gui_main_frame.simulation):
+        elif(self.gui_main_frame.simulation.get()):
             Popen("python3 hello_world.py --sim", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
 
 
