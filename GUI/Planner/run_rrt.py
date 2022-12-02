@@ -38,8 +38,8 @@ def run_planner(drone_id):
         "lambda": 0.1,  # Step size
         "eps": 0.01,  # Threshold for stopping the search (negative for full search)
         "r_neighbor": 0.5,  # Radius of circle for definition of neighborhood
-        "K": 10000,
-    }  # Maximum number of iterations 
+        "K": 10000, # Maximum number of iterations 
+    }  
 
     # Read .csv file
     #with open('../GUI/points_csv/drone'+str(drone_number)+'waypoints.csv', 'r') as file:

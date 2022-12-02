@@ -13,8 +13,6 @@ from mission_point import Mission_point
 from pop_up import Pop_up
 from Planner import run_rrt
 
-
-
 class Gui_drone_scroll_tab:
     def __init__(self, master, name_, start_coord_, show_yaw_, rrt_on_) -> None:
         self.connected = False
