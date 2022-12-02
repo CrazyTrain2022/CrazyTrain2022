@@ -2,7 +2,6 @@
 
 from tkinter import *
 from tkinter import ttk
-import tkinter as tk
 from PIL import Image, ImageTk
 
 from subprocess import Popen
@@ -20,7 +19,7 @@ class Gui_main_frame:
 
         # value for keeping track of manual/autonomous
         self.autonomous = TRUE
-
+        self.simulation = IntVar()
         # bool to keep track if yaw column should be showing or not
         self.yaw_option_showing = False
         self.rrt_option_on = False
@@ -46,11 +45,8 @@ class Gui_main_frame:
         emergency_btn = Button(pane_start_flight, text = "Emergency Stop", bg='red',fg="black", command=self.emergency_pressed)
         emergency_btn.grid(column=0, row=0, columnspan=2, padx=5, pady=5)
 
-        sim_btn = Button(pane_start_flight, text = "Start simulation", command=self.run_trajectory_simulation)
-        sim_btn.grid(column=0, row=1, padx=5, pady=1)
-
         drone_btn = Button(pane_start_flight, text = "Start drone flight", command=self.run_flight)
-        drone_btn.grid(column=1, row=1, padx=5, pady=1)
+        drone_btn.grid(column=0, row=1, columnspan=2, padx=5, pady=5)
 
         FTL_Formation_btn = Button(pane_start_flight, text = "Start Formation", command=self.run_FTL_Formation)
         FTL_Formation_btn.grid(column=0, row=2, columnspan=2, padx=5, pady=5)
@@ -67,57 +63,59 @@ class Gui_main_frame:
         manual_ctr_image_load = Image.open("GUI/pictures/xbox_controller_active.png")
         self.automatic_ctr_image = ImageTk.PhotoImage(automatic_ctr_image_load)
         self.manual_ctr_image = ImageTk.PhotoImage(manual_ctr_image_load)
-
+        #Checkbox for simulation
+ 
+        self.checkbutton = Checkbutton(master, text = "Simulation", variable=self.simulation, onvalue=1, offvalue=0)
         self.control_image = Label(self.pane_man_ctrl, image=self.automatic_ctr_image)
         self.control_image.grid(column=0, row=0, sticky="WE")
         self.pane_man_ctrl.grid_rowconfigure(0, weight=1)
         self.pane_man_ctrl.grid_columnconfigure(0, weight=1)
         self.pane_man_ctrl.grid(column=0, row=5, padx=1, pady=1)
-        
-    # function for starting simulation from the terminal
-    # input: -
-    # output: -
-    def run_trajectory_simulation(self):
-        if(self.autonomous):
-            worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
-            if(worked):
-                Popen("python3 gui_simulate.py --sim", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
-        else:
-            Popen("python3 manual_control.py --sim --manual", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
+        self.checkbutton.grid_rowconfigure(0, weight=1)
+        self.checkbutton.grid_columnconfigure(0, weight=1)
+        self.checkbutton.grid(column=0, row=6, padx=10, pady=10)
 
     # start flight script by callin a bash script
     # input: -
     # output: -
     def run_flight(self):
-        if(self.autonomous):
+        if(self.autonomous and not self.simulation):
             worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
             if(worked):
                 os.system('gnome-terminal -- bash GUI/bash_scripts/start_flight.sh')
                 os.system('gnome-terminal -- bash GUI/bash_scripts/start_real_time_sim.sh')
-        else:
+        elif(not self.autonomous):
             Popen("python3 manual_control.py --t --manual", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
+        elif(self.simulation):
+            worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
+            if(worked):
+                Popen("python3 gui_simulate.py --sim", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
 
     # start follow the leader formation by callin a bash script
     # input: -
     # output: -
     def run_FTL_Formation(self):
-        if(self.autonomous):
+        if(self.autonomous and not self.simulation):
             worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
             if(worked):
                 os.system('gnome-terminal -- bash GUI/bash_scripts/start_FTL_Formation.sh')
-        else:
-            Popen("python3 manual_control.py --t --manual", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
+        elif(self.simulation):
+            worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
+            if(worked):
+                Popen("python3 FTL_Formation.py --sim", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
 
     # start follow the leader line by callin a bash script
     # input: -
     # output: -
     def run_FTL_Line(self):
-        if(self.autonomous):
+        if(self.autonomous and not self.simulation):
             worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
             if(worked):
                 os.system('gnome-terminal -- bash GUI/bash_scripts/start_FTL_Line.sh')
-        else:
-            Popen("python3 manual_control.py --t --manual", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
+        elif(self.autonomous):
+            worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
+            if(worked):
+                Popen("python3 FTL_Line.py --sim", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
 
     # start real time simulation by calling a bash script
     # input: -
@@ -125,9 +123,29 @@ class Gui_main_frame:
     def run_real_time_sim(self):
         if(self.autonomous):
             os.system('gnome-terminal -- bash GUI/bash_scripts/start_real_time_sim.sh')
-        else:
-            #Popen("python3 manual_control.py --t --manual", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
-            print("not implemented yet")
+
+        # runs bash script to emergency land
+    # input: -
+    # output: -
+    def emergency_pressed(self):
+        print("Emergency pressed")
+        os.system('gnome-terminal -- bash GUI/bash_scripts/emergency.sh')
+
+    # enabled manual control of a drone
+    # input: -
+    # output: -
+    def manual_ctrl_activated(self, drone):
+        print("Manual control for drone " + drone)
+        self.autonomous = FALSE
+        self.control_image.config(image=self.manual_ctr_image)
+
+    # disables manual control of a drone. This should make all drones land
+    # input: -
+    # output: -
+    def manual_ctrl_deactivated(self):
+        print("Disables manual control, automatic landing initiated")
+        self.autonomous = TRUE
+        self.control_image.config(image=self.automatic_ctr_image)
 
     # function for loading all drone mission data to waypoint csv files
     # input: -
@@ -221,25 +239,3 @@ class Gui_main_frame:
             lst.append(tab.name)
         return lst
 
-    # runs bash script to emergency land
-    # input: -
-    # output: -
-    def emergency_pressed(self):
-        print("Emergency pressed")
-        os.system('gnome-terminal -- bash GUI/bash_scripts/emergency.sh')
-
-    # enabled manual control of a drone
-    # input: -
-    # output: -
-    def manual_ctrl_activated(self, drone):
-        print("Manual control for drone " + drone)
-        self.autonomous = FALSE
-        self.control_image.config(image=self.manual_ctr_image)
-
-    # disables manual control of a drone. This should make all drones land
-    # input: -
-    # output: -
-    def manual_ctrl_deactivated(self):
-        print("Disables manual control, automatic landing initiated")
-        self.autonomous = TRUE
-        self.control_image.config(image=self.automatic_ctr_image)

@@ -200,6 +200,37 @@ class Gui_upper_tab_menu:
     def drone_position(self):
         os.system('gnome-terminal -- python3 ./crazyswarm/ros_ws/src/crazyswarm/scripts/positionSubscriber.py ')
 
+        # runs a bash script that starts figure8
+    # input: -
+    # output: -
+    def run_figure8(self):
+        if(self.gui_main_frame.autonomous and not self.gui_main_frame.simulation):
+            os.system('gnome-terminal -- bash GUI/bash_scripts/run_figure8.sh')
+        elif(self.gui_main_frame.simulation):
+            print("in figure8")
+            Popen("python3 figure8_csv.py --sim", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
+    
+    # runs a bash script that starts hello_world
+    # input: -
+    # output: -
+    def run_hello_world(self):
+        if(self.gui_main_frame.autonomous and not self.gui_main_frame.simulation):
+            os.system('gnome-terminal -- bash GUI/bash_scripts/run_hello_world.sh')
+        elif(self.gui_main_frame.simulation):
+            Popen("python3 hello_world.py --sim", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
+
+
+    # runs a bash script that opens hover_swarm file to enable changing
+    # controller and filter parameter
+    # input: -
+    # output: -
+    def start_ros(self):
+        #os.system('gnome-terminal -- bash GUI/bash_scripts/start')
+        os.system('gnome-terminal -- bash GUI/bash_scripts/start_ros.sh') 
+        time.sleep(1)
+        os.system('gnome-terminal -- bash GUI/bash_scripts/start_hover_swarm.sh')
+        os.system('gnome-terminal -- bash GUI/bash_scripts/start_qualisys_node.sh')
+
     # function that update the drone tabs to show only for the selected drone
     # input: -
     # output: -
@@ -256,28 +287,6 @@ class Gui_upper_tab_menu:
 
         Pop_up(pop_up_window,"Helix pattern options", "Create Helix", self.gui_main_frame)
 
-    # runs a bash script that starts figure8
-    # input: -
-    # output: -
-    def run_figure8(self):
-        os.system('gnome-terminal -- bash GUI/bash_scripts/run_figure8.sh')
-    
-    # runs a bash script that starts hello_world
-    # input: -
-    # output: -
-    def run_hello_world(self):
-        os.system('gnome-terminal -- bash GUI/bash_scripts/run_hello_world.sh')
-
-    # runs a bash script that opens hover_swarm file to enable changing
-    # controller and filter parameter
-    # input: -
-    # output: -
-    def start_ros(self):
-        #os.system('gnome-terminal -- bash GUI/bash_scripts/start')
-        os.system('gnome-terminal -- bash GUI/bash_scripts/start_ros.sh') 
-        time.sleep(1)
-        os.system('gnome-terminal -- bash GUI/bash_scripts/start_hover_swarm.sh')
-        os.system('gnome-terminal -- bash GUI/bash_scripts/start_qualisys_node.sh')
 
     def circle(self):
         pop_up_window = Tk() # window setup
