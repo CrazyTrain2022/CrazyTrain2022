@@ -64,8 +64,8 @@ def run_planner(drone_id):
             start = np.array([path[0][-1],path[1][-1],path[2][-1]])
 
         # Run planner
-        #idx_goal, nodes, parents = rrt_planner(start, goal, world, opts)
-        idx_goal, nodes, parents = rrt_star_particle(start, goal, world, opts)
+        idx_goal, nodes, parents = rrt_planner(start, goal, world, opts)
+        #idx_goal, nodes, parents = rrt_star_particle(start, goal, world, opts)
 
         # Extract finalized path
         idx = idx_goal
