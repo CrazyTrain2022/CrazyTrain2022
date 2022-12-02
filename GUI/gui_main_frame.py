@@ -20,9 +20,9 @@ class Gui_main_frame:
         # value for keeping track of manual/autonomous
         self.autonomous = TRUE
         self.simulation = IntVar()
+        self.rrt= IntVar()
         # bool to keep track if yaw column should be showing or not
         self.yaw_option_showing = False
-        self.rrt_option_on = False
 
         # mission pane definitions
         Label(master, text = "Crazytrain", font=("Helvetica", 25)).grid(column=0, row=0, padx=1, pady=1)
@@ -63,17 +63,20 @@ class Gui_main_frame:
         manual_ctr_image_load = Image.open("GUI/pictures/xbox_controller_active.png")
         self.automatic_ctr_image = ImageTk.PhotoImage(automatic_ctr_image_load)
         self.manual_ctr_image = ImageTk.PhotoImage(manual_ctr_image_load)
-        #Checkbox for simulation
- 
-        self.checkbutton = Checkbutton(master, text = "Simulation", variable=self.simulation, onvalue=1, offvalue=0)
+
         self.control_image = Label(self.pane_man_ctrl, image=self.automatic_ctr_image)
         self.control_image.grid(column=0, row=0, sticky="WE")
         self.pane_man_ctrl.grid_rowconfigure(0, weight=1)
         self.pane_man_ctrl.grid_columnconfigure(0, weight=1)
         self.pane_man_ctrl.grid(column=0, row=5, padx=1, pady=1)
-        self.checkbutton.grid_rowconfigure(0, weight=1)
-        self.checkbutton.grid_columnconfigure(0, weight=1)
-        self.checkbutton.grid(column=0, row=6, padx=10, pady=10)
+
+        #Checkbox for simulation
+        pane_checkbutton = Frame(master, width=250, height=100)
+        pane_checkbutton.grid(column=0, row=6, padx=1, pady=10)
+        checkbutton_sim = Checkbutton(pane_checkbutton, text = "Simulation", variable=self.simulation, onvalue=1, offvalue=0)
+        checkbutton_rrt = Checkbutton(pane_checkbutton, text = "RRT Star", variable=self.rrt, onvalue=1, offvalue=0)
+        checkbutton_sim.grid(column=0, row=0, columnspan=2, padx=5, pady=5)
+        checkbutton_rrt.grid(column=0, row=1, columnspan=2, padx=5, pady=5)
 
     # start flight script by callin a bash script
     # input: -
@@ -157,7 +160,6 @@ class Gui_main_frame:
                 return False
         return True
         
-
     # function for saving all mission points for all drones
     # input: -
     # output: -
@@ -188,20 +190,6 @@ class Gui_main_frame:
         for drone in self.drone_tabs:
             drone.hide_yaw_option()
 
-    # Planner on option for every drone tab
-    # input: -
-    # output: -
-    def planner_on_option(self):
-        for drone in self.drone_tabs:
-            drone.planner_on_option()
-
-    # Planner off option for every drone tab
-    # input: -
-    # output: -
-    def planner_off_option(self):
-        for drone in self.drone_tabs:
-            drone.planner_off_option()
-
     # make sure that there is a tab for the drone
     # if there isn't one then create one
     # input: [int] drone number
@@ -213,7 +201,7 @@ class Gui_main_frame:
             self.tabControl.add(tab, text="Drone "+str(drone_nr))
 
             # create tab
-            self.drone_tabs.append(Gui_drone_scroll_tab(tab, str(drone_nr), start_coord, self.yaw_option_showing, self.rrt_option_on))
+            self.drone_tabs.append(Gui_drone_scroll_tab(tab, str(drone_nr), start_coord, self.yaw_option_showing, self.rrt))
 
     # deletes tabs for drones not selected
     # input: [list] of selected drones
