@@ -86,7 +86,7 @@ class Gui_main_frame:
             print("sim off")
 
     def run_rrt(self):
-        if(self.rrt.get()):
+        if(self.rrt.get() == 1):
             print("rrt on")
         else:
             print("rrt off")
@@ -216,7 +216,7 @@ class Gui_main_frame:
             self.tabControl.add(tab, text="Drone "+str(drone_nr))
 
             # create tab
-            self.drone_tabs.append(Gui_drone_scroll_tab(tab, str(drone_nr), start_coord, self.yaw_option_showing, self.rrt.get()))
+            self.drone_tabs.append(Gui_drone_scroll_tab(tab, str(drone_nr), start_coord, self.yaw_option_showing, self.rrt))
 
     # deletes tabs for drones not selected
     # input: [list] of selected drones

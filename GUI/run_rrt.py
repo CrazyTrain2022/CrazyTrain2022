@@ -34,7 +34,7 @@ def run_planner(drone_id):
 
     # Define planner options
     opts = {
-        "beta": 0.05,  # Probability of selecting goal state as target state
+        "beta": 0.8,  # Probability of selecting goal state as target state
         "lambda": 0.1,  # Step size
         "eps": 0.01,  # Threshold for stopping the search (negative for full search)
         "r_neighbor": 0.5,  # Radius of circle for definition of neighborhood

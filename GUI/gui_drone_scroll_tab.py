@@ -113,8 +113,8 @@ class Gui_drone_scroll_tab:
         self.points_np_array = np.delete(self.points_np_array, (0), axis=0) # remove starting position
         self.points_np_array = np.insert(self.points_np_array, (0), [0,0.01,self.points_np_array[0][2]], axis=0) # add point to rise to
         self.save_csv_file(self.points_np_array)
-
-        if self.rrt == 1:
+        print("rrt in drone_scroll: ", self.rrt)
+        if self.rrt.get() == 1:
             run_planner(str(self.name))
         self.make_trajectory_file()
         return True
@@ -142,7 +142,7 @@ class Gui_drone_scroll_tab:
         print("Create trajectory for drone "+str(self.name))
         v_max = 1.5
         a_max = 1.5
-        if self.rrt:
+        if self.rrt.get() == 1:
             print("using rrt")
             waypoint_file = './GUI/Planner/drone'+str(self.name)+'rrttrajectory.csv'
         else:
