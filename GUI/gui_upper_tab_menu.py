@@ -51,6 +51,7 @@ class Gui_upper_tab_menu:
         drone_submen.add_command(label="Start mocap helper", command=self.start_mocap_helper)
         drone_submen.add_command(label="Show drone position", command=self.drone_position)
         drone_submen.add_command(label="Update", command=self.update_drone_tabs)
+        drone_submen.add_command(label="Start", command=self.start)
         menu_widget.add_cascade(label="Drone", menu=drone_submen)
 
         # manual control menu
@@ -264,6 +265,13 @@ class Gui_upper_tab_menu:
     # output: -
     def run_hello_world(self):
         os.system('gnome-terminal -- bash GUI/bash_scripts/run_hello_world.sh')
+
+    # runs a bash script that opens hover_swarm file to enable changing
+    # controller and filter parameter
+    # input: -
+    # output: -
+    def start(self):
+        os.system('gnome-terminal -- bash GUI/bash_scripts/start') 
 
     def circle(self):
         pop_up_window = Tk() # window setup
