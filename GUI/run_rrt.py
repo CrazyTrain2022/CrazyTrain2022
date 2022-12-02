@@ -21,8 +21,8 @@ def run_planner(drone_id):
     world = BoxWorld([[-VISIONEN_X_DIM/2, VISIONEN_X_DIM/2], [-VISIONEN_Y_DIM/2, VISIONEN_Y_DIM/2], [0, VISIONEN_Z_DIM]])
 
     # Coordinates are closest to origo h,w,d is the box dim
-    sys.path.append("/home/crazycrowd/CrazyTrain/CrazyTrain2022/crazyswarm/ros_ws/src/crazyswarm/scripts/pycrazyswarm")
-    file_obs = "visualizer/obstacles.csv"
+    #sys.path.append("/home/crazycrowd/CrazyTrain/CrazyTrain2022/crazyswarm/ros_ws/src/crazyswarm/scripts/pycrazyswarm")
+    file_obs = "crazyswarm/ros_ws/src/crazyswarm/scripts/pycrazyswarm/visualizer/obstacles.csv"
     with open(file_obs, 'r') as file:
         reader = csv.reader(file, skipinitialspace=True)
         obs = np.empty((0,6),int)
@@ -43,7 +43,7 @@ def run_planner(drone_id):
 
     # Read .csv file
     #with open('../GUI/points_csv/drone'+str(drone_number)+'waypoints.csv', 'r') as file:
-    with open('points_csv/drone'+drone_id+'waypoints.csv', 'r') as file:
+    with open('GUI/points_csv/drone'+drone_id+'waypoints.csv', 'r') as file:
         reader = csv.reader(file, skipinitialspace=True)
         points = np.empty((0,3),int)
         for coord in reader:
@@ -64,8 +64,8 @@ def run_planner(drone_id):
             start = np.array([path[0][-1],path[1][-1],path[2][-1]])
 
         # Run planner
-        idx_goal, nodes, parents = rrt_planner(start, goal, world, opts)
-        #idx_goal, nodes, parents = rrt_star_particle(start, goal, world, opts)
+        #idx_goal, nodes, parents = rrt_planner(start, goal, world, opts)
+        idx_goal, nodes, parents = rrt_star_particle(start, goal, world, opts)
 
         # Extract finalized path
         idx = idx_goal
@@ -81,7 +81,7 @@ def run_planner(drone_id):
     # Creating a .csv file with complete path
     #with open('drone'+str(drone_number)+'rrttrajectory.csv','w') as file:
     print("Creating .csv file")
-    with open('drone'+drone_id+'rrttrajectory.csv','w') as file:
+    with open('GUI/Planner/drone'+drone_id+'rrttrajectory.csv','w') as file:
         writer = csv.writer(file)
         for i in range(0,len(path[0])):
             row = [path[0][i],path[1][i],path[2][i]]

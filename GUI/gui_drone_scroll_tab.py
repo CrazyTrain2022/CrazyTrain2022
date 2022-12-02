@@ -11,7 +11,7 @@ from shutil import copyfile
 from subprocess import Popen
 from mission_point import Mission_point
 from pop_up import Pop_up
-from Planner import run_rrt
+from run_rrt import *
 
 class Gui_drone_scroll_tab:
     def __init__(self, master, name_, start_coord_, show_yaw_, rrt_on_) -> None:
@@ -115,7 +115,8 @@ class Gui_drone_scroll_tab:
         self.save_csv_file(self.points_np_array)
         print("rrt_on", self.rrt_on)
         if self.rrt_on:
-            run_rrt.run_planner(str(self.name))
+            print("selfname: ", self.name)
+            run_planner(str(self.name))
         self.make_trajectory_file()
         return True
 
