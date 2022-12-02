@@ -7,6 +7,7 @@ import tkinter as tk
 from subprocess import Popen
 import yaml
 import os
+import time
 
 from pop_up import Pop_up
 
@@ -45,13 +46,14 @@ class Gui_upper_tab_menu:
         # drone menu
         drone_submen = tk.Menu(menu_widget, tearoff=False)
         drone_submen.add_command(label="Select drones", command=self.select_drones)
-        drone_submen.add_command(label="Start ROS server", command=self.start_ros_server)
-        drone_submen.add_command(label="Start hover swarm", command=self.start_hover_swarm)
-        drone_submen.add_command(label="Start Qualisys node", command=self.start_qualisys_node)
+        drone_submen.add_command(label="Start ROS", command=self.start_ros)
+        #drone_submen.add_command(label="Start ROS server", command=self.start_ros_server)
+        #drone_submen.add_command(label="Start hover swarm", command=self.start_hover_swarm)
+        #drone_submen.add_command(label="Start Qualisys node", command=self.start_qualisys_node)
         drone_submen.add_command(label="Start mocap helper", command=self.start_mocap_helper)
-        drone_submen.add_command(label="Show drone position", command=self.drone_position)
+        #drone_submen.add_command(label="Show drone position", command=self.drone_position)
         drone_submen.add_command(label="Update", command=self.update_drone_tabs)
-        drone_submen.add_command(label="Start", command=self.start)
+
         menu_widget.add_cascade(label="Drone", menu=drone_submen)
 
         # manual control menu
@@ -171,20 +173,20 @@ class Gui_upper_tab_menu:
     # runs a bash script that starts the ROS server
     # input: -
     # output: -
-    def start_ros_server(self):
-        os.system('gnome-terminal -- bash GUI/bash_scripts/start_ros.sh')
+    #def start_ros_server(self):
+        #os.system('gnome-terminal -- bash GUI/bash_scripts/start_ros.sh')
 
     # runs a bash script that starts hover_swarm
     # input: -
     # output: -
-    def start_hover_swarm(self):
-        os.system('gnome-terminal -- bash GUI/bash_scripts/start_hover_swarm.sh')
+    #def start_hover_swarm(self):
+    #    os.system('gnome-terminal -- bash GUI/bash_scripts/start_hover_swarm.sh')
 
     # runs a bash script that starts position node from qualisys
     # input: -
     # output: -
-    def start_qualisys_node(self):
-        os.system('gnome-terminal -- bash GUI/bash_scripts/start_qualisys_node.sh')
+    #def start_qualisys_node(self):
+        #os.system('gnome-terminal -- bash GUI/bash_scripts/start_qualisys_node.sh')
 
     # runs a bash script that starts mocap_helper
     # input: -
@@ -270,8 +272,12 @@ class Gui_upper_tab_menu:
     # controller and filter parameter
     # input: -
     # output: -
-    def start(self):
-        os.system('gnome-terminal -- bash GUI/bash_scripts/start') 
+    def start_ros(self):
+        #os.system('gnome-terminal -- bash GUI/bash_scripts/start')
+        os.system('gnome-terminal -- bash GUI/bash_scripts/start_ros.sh') 
+        time.sleep(1)
+        os.system('gnome-terminal -- bash GUI/bash_scripts/start_hover_swarm.sh')
+        os.system('gnome-terminal -- bash GUI/bash_scripts/start_qualisys_node.sh')
 
     def circle(self):
         pop_up_window = Tk() # window setup

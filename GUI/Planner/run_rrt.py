@@ -29,13 +29,19 @@ def run_planner():
     # Create the surronding world as an object BoxWorld
     world = BoxWorld([[-VISIONEN_X_DIM/2, VISIONEN_X_DIM/2], [-VISIONEN_Y_DIM/2, VISIONEN_Y_DIM/2], [0, VISIONEN_Z_DIM]])
 
-    # Define Obstacles (x,y,z,w,h,d)
-    obs1 = np.array([0,1,0,1,0.5,1])
-    #obs2 = np.array([1,10,0,1,1,1])
-
     # Coordinates are closest to origo h,w,d is the box dim
-    world.add_box(obs1[0], obs1[1], obs1[2], obs1[3], obs1[4], obs1[5])
-    #world.add_box(obs2[0], obs2[1], obs2[2], obs2[3], obs2[4], obs2[5])
+    sys.path.append("/home/crazycrowd/CrazyTrain/CrazyTrain2022/crazyswarm/ros_ws/src/crazyswarm/scripts/pycrazyswarm")
+    file_obs = "visualizer/obstacles.csv"
+    with open(file_obs, 'r') as file:
+        reader = csv.reader(file, skipinitialspace=True)
+        obs = np.empty((0,6),int)
+        for coord in reader:
+            step = np.array([[float(coord[0]),float(coord[1]),float(coord[2]),float(coord[3]),float(coord[4]),float(coord[5])]])
+            obs = np.append(obs ,step, axis = 0)
+        for i in range(0,len(obs)):
+            world.add_box(obs[i][0],obs[i][1],obs[i][2],obs[i][3],obs[i][4],obs[i][5])
+    print(obs)
+
 
     # Define planner options
     opts = {

@@ -24,7 +24,7 @@ class BoxWorld:
         """Get the total number of nodes in the state space"""
         return self.st_sp.shape[2]
 
-    def add_box(self, x, y, z, width, height, depth, fill_box=True):
+    def add_box(self, x1, y1, z1, x2, y2, z2, fill_box=True):
         """ Add a box to the world
 
         Input
@@ -35,10 +35,10 @@ class BoxWorld:
             height - height of the box
             depth - depth of the box
         """
-        self._boxes.append((x, y, z, width, height, depth, fill_box))
-        self.x_obst = np.row_stack((self.x_obst, [x, x + width]))
-        self.y_obst = np.row_stack((self.y_obst, [y, y + height]))
-        self.z_obst = np.row_stack((self.z_obst, [z, z + depth]))
+        self._boxes.append((x1, y1, z1, x2, y2, z2, fill_box))
+        self.x_obst = np.row_stack((self.x_obst, [x1, x2]))
+        self.y_obst = np.row_stack((self.y_obst, [y1, y2]))
+        self.z_obst = np.row_stack((self.z_obst, [z1, z2]))
 
     def in_bound(self, point):
         """Check if a given point is within the world-model boundaries"""
