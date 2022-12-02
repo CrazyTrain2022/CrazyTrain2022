@@ -3,27 +3,18 @@
 # Import dependencies from packages
 from random import sample
 import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
 from world import BoxWorld
 import csv
-import argparse
 import sys
 
 # Import functions for the planner
-from add_obs import add_obs
 from rrt import rrt_planner
+from rrt_star import rrt_star_particle
 
-def run_planner():
-    # Input arguments to the planner
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument('--sim', action='store_true') #Activates simulation
-    # parser.add_argument('--obs', action='store_true') #Includes boxes in simulation
-    # args = parser.parse_args()
-
+def run_planner(drone_id):
     # Define surronding world (width, height, depth)
-    VISIONEN_X_DIM = 11.70
-    VISIONEN_Y_DIM = 11.70
+    VISIONEN_X_DIM = 8
+    VISIONEN_Y_DIM = 8
     VISIONEN_Z_DIM = 3.0
 
     # Create the surronding world as an object BoxWorld
@@ -40,20 +31,19 @@ def run_planner():
             obs = np.append(obs ,step, axis = 0)
         for i in range(0,len(obs)):
             world.add_box(obs[i][0],obs[i][1],obs[i][2],obs[i][3],obs[i][4],obs[i][5])
-    print(obs)
-
 
     # Define planner options
     opts = {
-        "beta": 0.05,  # Probability of selecting goal state as target state in the sample
-        "lambda": 0.5,  # Step size
+        "beta": 0.05,  # Probability of selecting goal state as target state
+        "lambda": 0.1,  # Step size
         "eps": 0.01,  # Threshold for stopping the search (negative for full search)
-        "K": 5000, # Maximum number of iterations, if eps < 0
-    }  
+        "r_neighbor": 0.5,  # Radius of circle for definition of neighborhood
+        "K": 10000,
+    }  # Maximum number of iterations 
 
     # Read .csv file
     #with open('../GUI/points_csv/drone'+str(drone_number)+'waypoints.csv', 'r') as file:
-    with open('points_csv/drone'+'1'+'waypoints.csv', 'r') as file:
+    with open('points_csv/drone'+drone_id+'waypoints.csv', 'r') as file:
         reader = csv.reader(file, skipinitialspace=True)
         points = np.empty((0,3),int)
         for coord in reader:
@@ -74,7 +64,8 @@ def run_planner():
             start = np.array([path[0][-1],path[1][-1],path[2][-1]])
 
         # Run planner
-        idx_goal, nodes, parents, Tplan = rrt_planner(start, goal, world, opts)
+        #idx_goal, nodes, parents = rrt_planner(start, goal, world, opts)
+        idx_goal, nodes, parents = rrt_star_particle(start, goal, world, opts)
 
         # Extract finalized path
         idx = idx_goal
@@ -90,31 +81,9 @@ def run_planner():
     # Creating a .csv file with complete path
     #with open('drone'+str(drone_number)+'rrttrajectory.csv','w') as file:
     print("Creating .csv file")
-    with open('drone'+'1'+'rrttrajectory.csv','w') as file:
+    with open('drone'+drone_id+'rrttrajectory.csv','w') as file:
         writer = csv.writer(file)
         for i in range(0,len(path[0])):
             row = [path[0][i],path[1][i],path[2][i]]
             writer.writerow(row)
         print(".csv file created")
-
-    
-
-# Simulation of obstacles and the calculated path (if --sim has been called)
-# if args.sim:
-#     # Plot world
-#     fig = plt.figure()
-#     ax = Axes3D(fig)
-#     ax.axes.set_xlim(0,world_w)
-#     ax.axes.set_ylim(0,world_h)
-#     ax.axes.set_zlim(0,world_d)
-
-#     # Plot Obstacle (if --obs has been called)
-#     if args.obs:
-#         ax.voxels(add_obs(obs1[0], obs1[1], obs1[2], obs1[3], obs1[4], obs1[5]), facecolors='red', zorder = 0)
-#         ax.voxels(add_obs(obs2[0], obs2[1], obs2[2], obs2[3], obs2[4], obs2[5]), facecolors='blue', zorder = 1)
-
-#     # Plot path
-#     ax.plot(path[0], path[1], path[2], color='black', linestyle ='dotted', zorder = 10)
-
-#     # Show plot
-#     plt.show()

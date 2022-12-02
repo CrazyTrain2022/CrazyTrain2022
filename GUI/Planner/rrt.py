@@ -58,7 +58,6 @@ def rrt_planner(start, goal, world, opts):
                 #print("Broke early")
                 break
 
-    Tplan = 1337
     goal_idx = np.argmin(np.sum((nodes - goal.reshape((-1, 1))) ** 2, axis=0))
 
-    return goal_idx, nodes, parents, Tplan
+    return goal_idx, nodes, parents

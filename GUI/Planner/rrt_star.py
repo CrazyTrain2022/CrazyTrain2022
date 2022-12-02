@@ -6,45 +6,37 @@ Created on Tue Nov 22 10:04:05 2022
 @author: patli821
 """
 
-# %% Imports
+# Imports
 from random import sample
 import numpy as np
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-from mpl_toolkits import mplot3d
-from add_obs import add_obs
-#from misc import Timer
 from world import BoxWorld
 
+# # Define World
+# world = BoxWorld([[0, 10], [0, 10], [0, 10]])
 
-# %% Define World
-world = BoxWorld([[0, 10], [0, 10], [0, 10]])
+# # Define start and goal state
+# start = np.array([5, 0, 5]) # Start state
+# #goal = np.array([5, 9, 5]) # Goal state
+# goal = np.array([5, 5, 5]) # Goal state
 
-# Define start and goal state
-start = np.array([5, 0, 5]) # Start state
-#goal = np.array([5, 9, 5]) # Goal state
-goal = np.array([5, 5, 5]) # Goal state
+# # Adding Obstacles
+# x1 = 4
+# y1 = 6
+# z1 = 4
+# w1 = 2
+# h1 = 2
+# d1 = 2
 
-# Adding Obstacles
-x1 = 4
-y1 = 6
-z1 = 4
-w1 = 2
-h1 = 2
-d1 = 2
+# x2 = 4
+# y2 = 2
+# z2 = 4
+# w2 = 2
+# h2 = 2
+# d2 = 2
 
-x2 = 4
-y2 = 2
-z2 = 4
-w2 = 2
-h2 = 2
-d2 = 2
-
-# Coordinates are closest to origo h,w,d is the box dim
-world.add_box(x1, y1, z1, w1, h1, d1)
-world.add_box(x2, y2, z2, w2, h2, d2)
-
-# %% Implementation of RRT*
+# # Coordinates are closest to origo h,w,d is the box dim
+# world.add_box(x1, y1, z1, w1, h1, d1)
+# world.add_box(x2, y2, z2, w2, h2, d2)
 
 # Implementation of the RRT planning algorithm for a particle moving in a plane (2D world)
 def rrt_star_particle(start, goal, world, opts):
@@ -193,52 +185,48 @@ def rrt_star_particle(start, goal, world, opts):
                 # print("Broke early")
                 break
 
-
-    Tplan = 1337
     goal_idx = np.argmin(np.sum((nodes - goal.reshape((-1, 1))) ** 2, axis=0))
 
-    return goal_idx, nodes, parents, Tplan
+    return goal_idx, nodes, parents
 
-# %% # Run the planner
+# Run the planner
 
-opts = {
-    "beta": 0.05,  # Probability of selecting goal state as target state
-    "lambda": 0.1,  # Step size
-    "eps": -0.01,  # Threshold for stopping the search (negative for full search)
-    "r_neighbor": 0.5,  # Radius of circle for definition of neighborhood
-    "K": 10000,
-}  # Maximum number of iterations
+# opts = {
+#     "beta": 0.05,  # Probability of selecting goal state as target state
+#     "lambda": 0.1,  # Step size
+#     "eps": -0.01,  # Threshold for stopping the search (negative for full search)
+#     "r_neighbor": 0.5,  # Radius of circle for definition of neighborhood
+#     "K": 10000,
+# }  # Maximum number of iterations
 
-idx_goal, nodes, parents, Tplan = rrt_star_particle(start, goal, world, opts)
+# idx_goal, nodes, parents, Tplan = rrt_star_particle(start, goal, world, opts)
 
-print(idx_goal)
-print(nodes)
 
-# %% Plots and Analysis
+# # %% Plots and Analysis
 
-# Define figure
-fig = plt.figure()
-#ax = Axes3D(fig)
-#ax = mpl_toolkits.mplot3d.Axes3D(fig)
-ax = fig.add_subplot(projection='3d')
+# # Define figure
+# fig = plt.figure()
+# #ax = Axes3D(fig)
+# #ax = mpl_toolkits.mplot3d.Axes3D(fig)
+# ax = fig.add_subplot(projection='3d')
 
-# Plot Obstacle
-ax.voxels(add_obs(x1,y1,z1,w1,h1,d1), facecolors='red', zorder = 0)
-ax.voxels(add_obs(x2,y2,z2,w2,h2,d2), facecolors='blue', zorder = 1)
+# # Plot Obstacle
+# ax.voxels(add_obs(x1,y1,z1,w1,h1,d1), facecolors='red', zorder = 0)
+# ax.voxels(add_obs(x2,y2,z2,w2,h2,d2), facecolors='blue', zorder = 1)
 
-#Plot tree
-idx = len(parents) - 1
-while idx != 0:
-    ll = np.column_stack((nodes[:, parents[idx]], nodes[:, idx]))
-    ax.plot(ll[0], ll[1], ll[2], color='gray', lw = 2)
-    idx = idx - 1
+# #Plot tree
+# idx = len(parents) - 1
+# while idx != 0:
+#     ll = np.column_stack((nodes[:, parents[idx]], nodes[:, idx]))
+#     ax.plot(ll[0], ll[1], ll[2], color='gray', lw = 2)
+#     idx = idx - 1
 
-#Plot path
-idx = idx_goal
-while idx != 0:
-    ll = np.column_stack((nodes[:, parents[idx]], nodes[:, idx]))
-    ax.plot(ll[0], ll[1], ll[2], color='green', lw = 2, zorder = 10)
-    idx = parents[idx]
+# #Plot path
+# idx = idx_goal
+# while idx != 0:
+#     ll = np.column_stack((nodes[:, parents[idx]], nodes[:, idx]))
+#     ax.plot(ll[0], ll[1], ll[2], color='green', lw = 2, zorder = 10)
+#     idx = parents[idx]
 
-plt.show()
+# plt.show()
 
