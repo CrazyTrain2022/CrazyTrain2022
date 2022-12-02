@@ -47,15 +47,15 @@ class Gui_main_frame:
 
         drone_btn = Button(pane_start_flight, text = "Start drone flight", command=self.run_flight)
         drone_btn.grid(column=0, row=1, columnspan=2, padx=5, pady=5)
-
+ 
         FTL_Formation_btn = Button(pane_start_flight, text = "Start Formation", command=self.run_FTL_Formation)
-        FTL_Formation_btn.grid(column=0, row=2, columnspan=2, padx=5, pady=5)
+        FTL_Formation_btn.grid(column=0, row=2, padx=5, pady=5)
 
         FTL_Line_btn = Button(pane_start_flight, text = "Start Line Formation", command=self.run_FTL_Line)
-        FTL_Line_btn.grid(column=0, row=3, columnspan=2, padx=5, pady=5)
+        FTL_Line_btn.grid(column=1, row=2, padx=5, pady=5)
 
         flight_sim_btn = Button(pane_start_flight, text = "Start real-time simulation", command=self.run_real_time_sim)
-        flight_sim_btn.grid(column=0, row=4, columnspan=2, padx=5, pady=5)
+        flight_sim_btn.grid(column=0, row=3, columnspan=2, padx=5, pady=5)
 
         # indicator for showing control mode active
         self.pane_man_ctrl = LabelFrame(master, text="Control mode" , width=200, height=200, relief=SUNKEN, )
@@ -68,28 +68,43 @@ class Gui_main_frame:
         self.control_image.grid(column=0, row=0, sticky="WE")
         self.pane_man_ctrl.grid_rowconfigure(0, weight=1)
         self.pane_man_ctrl.grid_columnconfigure(0, weight=1)
-        self.pane_man_ctrl.grid(column=0, row=5, padx=1, pady=1)
+        self.pane_man_ctrl.grid(column=0, row=4, padx=1, pady=1)
 
         #Checkbox for simulation
         pane_checkbutton = Frame(master, width=250, height=100)
-        pane_checkbutton.grid(column=0, row=6, padx=1, pady=10)
-        checkbutton_sim = Checkbutton(pane_checkbutton, text = "Simulation", variable=self.simulation, onvalue=1, offvalue=0)
-        checkbutton_rrt = Checkbutton(pane_checkbutton, text = "RRT Star", variable=self.rrt, onvalue=1, offvalue=0)
+        pane_checkbutton.grid(column=0, row=5, padx=1, pady=10)
+        checkbutton_sim = Checkbutton(pane_checkbutton, text = "Simulation", variable=self.simulation, onvalue=1, offvalue=0, command=self.run_sim)
+        checkbutton_rrt = Checkbutton(pane_checkbutton, text = "RRT Star", variable=self.rrt, onvalue=1, offvalue=0, command=self.run_rrt)
         checkbutton_sim.grid(column=0, row=0, columnspan=2, padx=5, pady=5)
         checkbutton_rrt.grid(column=0, row=1, columnspan=2, padx=5, pady=5)
 
+
+    def run_sim(self):
+        if(self.simulation.get() == 1):
+            print("sim on")
+        else:
+            print("sim off")
+
+    def run_rrt(self):
+        if(self.rrt.get()):
+            print("rrt on")
+        else:
+            print("rrt off")
     # start flight script by callin a bash script
     # input: -
     # output: -
     def run_flight(self):
-        if(self.autonomous and not self.simulation):
+        print(self.autonomous)
+        print(self.simulation)
+        print(self.rrt)
+        if(self.autonomous and not self.simulation.get()):
             worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
             if(worked):
                 os.system('gnome-terminal -- bash GUI/bash_scripts/start_flight.sh')
                 os.system('gnome-terminal -- bash GUI/bash_scripts/start_real_time_sim.sh')
         elif(not self.autonomous):
             Popen("python3 manual_control.py --t --manual", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
-        elif(self.simulation):
+        elif(self.simulation.get()):
             worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
             if(worked):
                 Popen("python3 gui_simulate.py --sim", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
@@ -98,11 +113,11 @@ class Gui_main_frame:
     # input: -
     # output: -
     def run_FTL_Formation(self):
-        if(self.autonomous and not self.simulation):
+        if(self.autonomous and not self.simulation.get()):
             worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
             if(worked):
                 os.system('gnome-terminal -- bash GUI/bash_scripts/start_FTL_Formation.sh')
-        elif(self.simulation):
+        elif(self.simulation.get()):
             worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
             if(worked):
                 Popen("python3 FTL_Formation.py --sim", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
@@ -111,11 +126,11 @@ class Gui_main_frame:
     # input: -
     # output: -
     def run_FTL_Line(self):
-        if(self.autonomous and not self.simulation):
+        if(self.autonomous and not self.simulation.get()):
             worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
             if(worked):
                 os.system('gnome-terminal -- bash GUI/bash_scripts/start_FTL_Line.sh')
-        elif(self.autonomous):
+        elif(self.simulation.get()):
             worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
             if(worked):
                 Popen("python3 FTL_Line.py --sim", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
@@ -201,7 +216,7 @@ class Gui_main_frame:
             self.tabControl.add(tab, text="Drone "+str(drone_nr))
 
             # create tab
-            self.drone_tabs.append(Gui_drone_scroll_tab(tab, str(drone_nr), start_coord, self.yaw_option_showing, self.rrt))
+            self.drone_tabs.append(Gui_drone_scroll_tab(tab, str(drone_nr), start_coord, self.yaw_option_showing, self.rrt.get()))
 
     # deletes tabs for drones not selected
     # input: [list] of selected drones

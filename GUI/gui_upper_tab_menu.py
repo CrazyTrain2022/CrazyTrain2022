@@ -187,9 +187,9 @@ class Gui_upper_tab_menu:
     # input: -
     # output: -
     def run_figure8(self):
-        if(self.gui_main_frame.autonomous and not self.gui_main_frame.simulation):
+        if(self.gui_main_frame.autonomous and not self.gui_main_frame.simulation.get()):
             os.system('gnome-terminal -- bash GUI/bash_scripts/run_figure8.sh')
-        elif(self.gui_main_frame.simulation):
+        elif(self.gui_main_frame.simulation.get()):
             print("in figure8")
             Popen("python3 figure8_csv.py --sim", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
     
