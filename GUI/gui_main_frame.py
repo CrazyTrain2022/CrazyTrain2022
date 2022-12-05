@@ -36,26 +36,26 @@ class Gui_main_frame:
 
         # place the tabs in the frame
         self.tabControl.pack(expand=1, fill="both")
-        pane_drone.grid(column=0, row=1, padx=1, pady=1)
+        pane_drone.grid(column=0, row=1, padx=10, pady=10)
 
         # mission start buttons
         pane_start_flight = Frame(master, width=250, height=100)
         pane_start_flight.grid(column=0, row=2, padx=1, pady=10)
 
-        emergency_btn = Button(pane_start_flight, text = "Emergency Stop", bg='red',fg="black", command=self.emergency_pressed)
-        emergency_btn.grid(column=0, row=0, columnspan=2, padx=5, pady=5)
+        emergency_btn = Button(pane_start_flight, text = "Emergency Stop", bg='red',fg="black", command=self.emergency_pressed, height=1, width=15)
+        emergency_btn.grid(column=0, row=0, padx=5, pady=5)
 
-        drone_btn = Button(pane_start_flight, text = "Start drone flight", command=self.run_flight)
-        drone_btn.grid(column=0, row=1, columnspan=2, padx=5, pady=5)
+        drone_btn = Button(pane_start_flight, text = "Start drone flight", command=self.run_flight, height=1, width=15)
+        drone_btn.grid(column=1, row=0, padx=5, pady=5)
  
-        FTL_Formation_btn = Button(pane_start_flight, text = "Start Formation", command=self.run_FTL_Formation)
-        FTL_Formation_btn.grid(column=0, row=2, padx=5, pady=5)
+        FTL_Formation_btn = Button(pane_start_flight, text = "Start Formation", command=self.run_FTL_Formation, height=1, width=15)
+        FTL_Formation_btn.grid(column=0, row=1, padx=5, pady=5)
 
-        FTL_Line_btn = Button(pane_start_flight, text = "Start Line Formation", command=self.run_FTL_Line)
-        FTL_Line_btn.grid(column=1, row=2, padx=5, pady=5)
+        FTL_Line_btn = Button(pane_start_flight, text = "Start Line Formation", command=self.run_FTL_Line, height=1, width=15)
+        FTL_Line_btn.grid(column=1, row=1, padx=5, pady=5)
 
         flight_sim_btn = Button(pane_start_flight, text = "Start real-time simulation", command=self.run_real_time_sim)
-        flight_sim_btn.grid(column=0, row=3, columnspan=2, padx=5, pady=5)
+        flight_sim_btn.grid(column=0, row=2, columnspan=2, padx=5, pady=5)
 
         # indicator for showing control mode active
         self.pane_man_ctrl = LabelFrame(master, text="Control mode" , width=200, height=200, relief=SUNKEN, )
@@ -68,11 +68,11 @@ class Gui_main_frame:
         self.control_image.grid(column=0, row=0, sticky="WE")
         self.pane_man_ctrl.grid_rowconfigure(0, weight=1)
         self.pane_man_ctrl.grid_columnconfigure(0, weight=1)
-        self.pane_man_ctrl.grid(column=0, row=4, padx=1, pady=1)
+        self.pane_man_ctrl.grid(column=0, row=3, padx=1, pady=1)
 
         #Checkbox for simulation
         pane_checkbutton = Frame(master, width=250, height=100)
-        pane_checkbutton.grid(column=0, row=5, padx=1, pady=10)
+        pane_checkbutton.grid(column=0, row=4, padx=1, pady=10)
         checkbutton_sim = Checkbutton(pane_checkbutton, text = "Simulation", variable=self.simulation, onvalue=1, offvalue=0, command=self.run_sim)
         checkbutton_rrt = Checkbutton(pane_checkbutton, text = "RRT Star", variable=self.rrt, onvalue=1, offvalue=0, command=self.run_rrt)
         checkbutton_sim.grid(column=0, row=0, columnspan=2, padx=5, pady=5)

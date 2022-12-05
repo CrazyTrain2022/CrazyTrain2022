@@ -34,6 +34,7 @@ class Gui_upper_tab_menu:
         self.file_submen.add_command(label="Load mission", command=self.load_mission)
         self.file_submen.add_command(label="Remove saved missions", command=self.delete_saved_missions)
         self.file_submen.add_command(label="Show yaw option", command=self.yaw_option)
+        self.file_submen.add_command(label="Add obstacle", command=self.obstacle)
         self.file_parameters.add_command(label="Change controller", command=self.change_controller)
         self.file_parameters.add_command(label="Change controller parameters", command=self.change_parameters)
         self.file_parameters.add_command(label="Catkin make", command=self.catkin_make)
@@ -277,3 +278,11 @@ class Gui_upper_tab_menu:
         pop_up_window.geometry("350x120")
 
         Pop_up(pop_up_window,"Circle pattern options", "Create Circle", self.gui_main_frame)
+
+    def obstacle(self):
+        pop_up_window = Tk() # window setup
+        pop_up_window.title("Load mission")
+        pop_up_window.geometry("350x250")
+
+        Pop_up(pop_up_window,"Obstacle options", "Create Obstacle", self.gui_main_frame)
+

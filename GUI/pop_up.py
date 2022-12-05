@@ -10,6 +10,7 @@ from point_creations.patterns import Patterns
 import os
 import glob
 from shutil import copyfile, rmtree
+import csv
 
 # general class popup for when a entry is needed
 # class uses the text of the button to determine what sort of 
@@ -65,13 +66,43 @@ class Pop_up:
         # Circle popup: create circle pattern
         if(self.text_btn == "Create Circle"):
             self.frame = Frame(self.master)
-            self.entry2 = Entry(self.frame, width=7)
-            self.lbl1 = Label(self.frame, text="Radius:")
+            self.entry4 = Entry(self.frame, width=7)
+            self.lbl3 = Label(self.frame, text="Radius:")
 
-            self.lbl1.grid(row=1, column=1, pady=2)
-            self.entry2.grid(row=1, column=2, pady=2)
+            self.lbl3.grid(row=1, column=1, pady=2)
+            self.entry4.grid(row=1, column=2, pady=2)
             self.frame.pack()
+        
+        # Obstacle popup: Create an obstacle    
+        if(self.text_btn == "Create Obstacle"):
+            self.frame = Frame(self.master)
+            self.entry5 = Entry(self.frame, width=7)
+            self.entry6 = Entry(self.frame, width=7)
+            self.entry7 = Entry(self.frame, width=7)
+            self.entry8 = Entry(self.frame, width=7)
+            self.entry9 = Entry(self.frame, width=7)
+            self.entry10 = Entry(self.frame, width=7)
 
+            self.lbl4 = Label(self.frame, text="x:")
+            self.lbl5 = Label(self.frame, text="y:")
+            self.lbl6 = Label(self.frame, text="z:")
+            self.lbl7 = Label(self.frame, text="Height:")
+            self.lbl8 = Label(self.frame, text="Width:")
+            self.lbl9 = Label(self.frame, text="Depth:")
+
+            self.lbl4.grid(row=1, column=1, pady=2)
+            self.lbl5.grid(row=2, column=1, pady=2)
+            self.lbl6.grid(row=3, column=1, pady=2)
+            self.lbl7.grid(row=4, column=1, pady=2)
+            self.lbl8.grid(row=5, column=1, pady=2)
+            self.lbl9.grid(row=6, column=1, pady=2)
+            self.entry5.grid(row=1, column=2, pady=2)
+            self.entry6.grid(row=2, column=2, pady=2)
+            self.entry7.grid(row=3, column=2, pady=2)
+            self.entry8.grid(row=4, column=2, pady=2)
+            self.entry9.grid(row=5, column=2, pady=2)
+            self.entry10.grid(row=6, column=2, pady=2)
+            self.frame.pack()
 
         # button added for all popups
         self.button = Button(self.master, text=self.text_btn, command=self.button_clicked)
@@ -93,6 +124,8 @@ class Pop_up:
             self.create_helix()
         elif(self.text_btn == "Create Circle"):
             self.create_circle()
+        elif(self.text_btn == "Create Obstacle"):
+            self.create_obstacle()
         self.close_popup()
 
     # runs the command to save the file
@@ -203,15 +236,36 @@ class Pop_up:
         self.object.drone_tabs[0].save_csv_file(waypoints)
         self.object.drone_tabs[0].display_loaded_mission()
 
+    # creates waypoints for a circle
     def create_circle(self):
-        radius = float(self.entry2.get())
+        radius = float(self.entry4.get())
         start_coord = self.object.drone_tabs[0].start_coord
         waypoints = Patterns().circle(radius, 15, start_coord, 10)
 
         # save waypoints and save to csv file
         self.object.drone_tabs[0].save_csv_file(waypoints)
         self.object.drone_tabs[0].display_loaded_mission()
+    
+    # creates obstacle for rrt
+    def create_obstacle(self):
+        data = []
+        x = float(self.entry5.get())
+        y = float(self.entry6.get())
+        z = float(self.entry7.get())
+        h = float(self.entry8.get())
+        w = float(self.entry9.get())
+        d = float(self.entry10.get())
+        data.append(x)
+        data.append(y)
+        data.append(z)
+        data.append(h)
+        data.append(w)
+        data.append(d)
 
+        file_obs = "crazyswarm/ros_ws/src/crazyswarm/scripts/pycrazyswarm/visualizer/obstacles.csv"
+        with open(file_obs, 'w') as file:
+            writer = csv.writer(file)
+            writer.writerow(data)
 
     # close pop-up window
     def close_popup(self):
