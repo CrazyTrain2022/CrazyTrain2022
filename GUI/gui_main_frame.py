@@ -81,22 +81,19 @@ class Gui_main_frame:
 
     def run_sim(self):
         if(self.simulation.get() == 1):
-            print("sim on")
+            print("Simulation mode activated.")
         else:
-            print("sim off")
+            print("Simulation mode de-activated.")
 
     def run_rrt(self):
         if(self.rrt.get() == 1):
-            print("rrt on")
+            print("RRT*-planner activated.")
         else:
-            print("rrt off")
+            print("RRT*-planner de-activated.")
     # start flight script by callin a bash script
     # input: -
     # output: -
     def run_flight(self):
-        print(self.autonomous)
-        print(self.simulation)
-        print(self.rrt)
         if(self.autonomous and not self.simulation.get()):
             worked = self.load_waypoints_to_csv() # make sure there are trajectory files to load
             if(worked):

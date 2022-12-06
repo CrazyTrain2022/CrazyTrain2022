@@ -13,11 +13,11 @@ from rrt_star import rrt_star_particle
 
 def run_planner(drone_id):
     # Define surronding world (width, height, depth)
-    VISIONEN_X_DIM = 8
-    VISIONEN_Y_DIM = 8
-    VISIONEN_Z_DIM = 3.0
+    VISIONEN_X_DIM = 12
+    VISIONEN_Y_DIM = 12
+    VISIONEN_Z_DIM = 5
 
-    # Constraint the world around set-points and obstacles
+    # Recalculate the world dimensions around the setpoints and obstacles to enable more efficient sampling
     CALC_X_MAX = 0
     CALC_X_MIN = 0
     CALC_Y_MAX = 0
@@ -26,7 +26,6 @@ def run_planner(drone_id):
     CALC_Z_MIN = 0 # Always 0
 
     # Read drone?waypoints.csv file
-    #with open('../GUI/points_csv/drone'+str(drone_number)+'waypoints.csv', 'r') as file:
     with open('GUI/points_csv/drone'+drone_id+'waypoints.csv', 'r') as file:
         reader = csv.reader(file, skipinitialspace=True)
         points = np.empty((0,3),int)
@@ -34,20 +33,19 @@ def run_planner(drone_id):
             step = np.array([[float(coord[0]),float(coord[1]),float(coord[2])]])
             points = np.append(points ,step, axis = 0)
             # Constraining the world coordinates
-            if step[0] <= CALC_X_MIN:
-                CALC_X_MIN = step[0] - 1
-            if step[1] <= CALC_Y_MIN:
-                CALC_Y_MIN = step[1] - 1
-            if step[1] >= CALC_X_MAX:
-                CALC_X_MAX = step[0] + 1
-            if step[1] >= CALC_Y_MAX:
-                CALC_Y_MAX = step[1] + 1
-            if step[2] >= CALC_Z_MAX:
-                CALC_Z_MAX = step[5] + 1
-        print("Waypoints csv-file read!")
+            if float(coord[0]) <= CALC_X_MIN:
+                CALC_X_MIN = float(coord[0]) - 1
+            if float(coord[1]) <= CALC_Y_MIN:
+                CALC_Y_MIN = float(coord[1]) - 1
+            if float(coord[0]) >= CALC_X_MAX:
+                CALC_X_MAX = float(coord[0]) + 1
+            if float(coord[1]) >= CALC_Y_MAX:
+                CALC_Y_MAX = float(coord[1]) + 1
+            if float(coord[2]) >= CALC_Z_MAX:
+                CALC_Z_MAX = float(coord[2]) + 1
+        print("Waypoints csv-file read successfully!")
 
     # Read obstacles.csv file
-    #sys.path.append("/home/crazycrowd/CrazyTrain/CrazyTrain2022/crazyswarm/ros_ws/src/crazyswarm/scripts/pycrazyswarm")
     file_obs = "crazyswarm/ros_ws/src/crazyswarm/scripts/pycrazyswarm/visualizer/obstacles.csv"
     with open(file_obs, 'r') as file:
         reader = csv.reader(file, skipinitialspace=True)
@@ -56,30 +54,53 @@ def run_planner(drone_id):
             step = np.array([[float(coord[0]),float(coord[1]),float(coord[2]),float(coord[3]),float(coord[4]),float(coord[5])]])
             obs = np.append(obs ,step, axis = 0)
             # Constraining the world coordinates
-            if step[0] <= CALC_X_MIN:
-                CALC_X_MIN = step[0] - 1
-            if step[1] <= CALC_Y_MIN:
-                CALC_Y_MIN = step[1] - 1
-            if step[3] >= CALC_X_MAX:
-                CALC_X_MAX = step[0] + 1
-            if step[4] >= CALC_Y_MAX:
-                CALC_Y_MAX = step[1] + 1
-            if step[5] >= CALC_Z_MAX:
-                CALC_Z_MAX = step[5] + 1
-        print("Obstacles csv-file read!")
+            if float(coord[0]) <= CALC_X_MIN:
+                CALC_X_MIN = float(coord[0]) - 1
+            if float(coord[1]) <= CALC_Y_MIN:
+                CALC_Y_MIN = float(coord[1]) - 1
+            if float(coord[2]) >= CALC_X_MAX:
+                CALC_X_MAX = float(coord[2]) + 1
+            if float(coord[3]) >= CALC_Y_MAX:
+                CALC_Y_MAX = float(coord[3]) + 1
+            if float(coord[5]) >= CALC_Z_MAX:
+                CALC_Z_MAX = float(coord[5]) + 1
+        print("Obstacles csv-file read successfully!")
+
+
+    # Check that the calculated WORLD-dimensions does not exeed the dimensions of Visionen
+    if CALC_X_MIN < -VISIONEN_X_DIM/2:
+        CALC_X_MIN = -VISIONEN_X_DIM/2
+    if CALC_Y_MIN < -VISIONEN_Y_DIM/2:
+        CALC_Y_MIN = -VISIONEN_Y_DIM/2
+    if CALC_X_MAX > VISIONEN_X_DIM/2:
+        CALC_X_MAX = VISIONEN_X_DIM/2
+    if CALC_Y_MAX > VISIONEN_Y_DIM/2:
+        CALC_Y_MAX = VISIONEN_Y_DIM/2
+    if CALC_Z_MAX > VISIONEN_Z_DIM:
+        CALC_Z_MAX = VISIONEN_Z_DIM
+
+    # # Prints to ensure correct dimension calculations
+    # print("World x-min: ",CALC_X_MIN)
+    # print("World y-min: ",CALC_Y_MIN)
+    # print("World z-min: ",CALC_Z_MIN)
+    # print("World x-max: ",CALC_X_MAX)
+    # print("World y-max: ",CALC_Y_MAX)
+    # print("World z-max: ",CALC_Z_MAX)
+
+
+    # Define planner parameters
+    opts = {
+        "beta": 0.1, #Probability of selecting goal state as target state
+        "lambda": 0.1, #Step size
+        "eps": 0.1,
+        "r_neighbor": 5,
+        "K": 10000,
+    }
 
     # Create the surronding world as an object BoxWorld and add obstacles
-    #world = BoxWorld([[-VISIONEN_X_DIM/2, VISIONEN_X_DIM/2], [-VISIONEN_Y_DIM/2, VISIONEN_Y_DIM/2], [0, VISIONEN_Z_DIM]])
     world = BoxWorld([[CALC_X_MIN, CALC_X_MAX], [CALC_Y_MIN, CALC_Y_MAX], [CALC_Z_MIN, CALC_Z_MAX]])
     for i in range(0,len(obs)):
         world.add_box(obs[i][0],obs[i][1],obs[i][2],obs[i][3],obs[i][4],obs[i][5])
-    
-    print("World x-min: ",CALC_X_MIN)
-    print("World y-min: ",CALC_Y_MIN)
-    print("World z-min: ",CALC_Z_MIN)
-    print("World x-max: ",CALC_X_MAX)
-    print("World y-max: ",CALC_Y_MAX)
-    print("World z-max: ",CALC_Z_MAX)
 
     # Run the planner
     path = np.vstack(points[0])
@@ -110,10 +131,9 @@ def run_planner(drone_id):
 
     # Creating a .csv file with complete path
     #with open('drone'+str(drone_number)+'rrttrajectory.csv','w') as file:
-    print("Creating .csv file")
     with open('GUI/Planner/drone'+drone_id+'rrttrajectory.csv','w') as file:
         writer = csv.writer(file)
         for i in range(0,len(path[0])):
             row = [path[0][i],path[1][i],path[2][i]]
             writer.writerow(row)
-        print(".csv file created")
+        print("RRT-trajectory file created successfully!")

@@ -49,15 +49,14 @@ def rrt_star_particle(start, goal, world, opts):
         return x_new
     
     def connect_min_cost(x_new, near_idx, idx_nearest, cost_via_nearest):
-    #"""Function for connecting along a path from tree root to x_new with
-    #minimum cost among the states in a neighborhood of x_new
-    #described by the (column) indices near_idx in nodes. The variable
-    #idx_nearest is the index (column in matrix nodes) for the node
-    #closest to x_new and cost_via_nearest is the cost to reach x_new
-    #via the nearest node."""
+        """Function for connecting along a path from tree root to x_new with
+        #minimum cost among the states in a neighborhood of x_new
+        #described by the (column) indices near_idx in nodes. The variable
+        #idx_nearest is the index (column in matrix nodes) for the node
+        #closest to x_new and cost_via_nearest is the cost to reach x_new
+        #via the nearest node."""
 
         idx_min = idx_nearest
-        #cost_min = min(cost_via_nearest)
         cost_min = cost_via_nearest
 
         for idx_n in near_idx:
@@ -66,14 +65,41 @@ def rrt_star_particle(start, goal, world, opts):
             if (x_new[0] == x_near[0]) and (x_new[1] == x_near[1]) and (x_new[2] == x_near[2]):
                 p = x_new[:, None]
             else:
+                # Check if node coordinates for near and new are the same in one of the dimensions and substitute the arange command for runnable code
+                if x_near[2] == x_new[2]:
                     p = np.row_stack(
-                (
-                    np.arange(x_near[0], x_new[0], (x_new[0] - x_near[0]) / 10),
-                    np.arange(x_near[1], x_new[1], (x_new[1] - x_near[1]) / 10),
-                    np.arange(x_near[2], x_new[2], (x_new[2] - x_near[2]) / 10),
-                )
-            )
-            cost_near = cost[idx_n] + np.linalg.norm(x_near - x_new)
+                    (
+                        np.arange(x_near[0], x_new[0], (x_new[0] - x_near[0]) / 10),
+                        np.arange(x_near[1], x_new[1], (x_new[1] - x_near[1]) / 10),
+                        np.full((1,10),x_near[2]),
+                        #np.array([x_new[2], x_new[2], x_new[2], x_new[2], x_new[2], x_new[2], x_new[2], x_new[2], x_new[2], x_new[2]]),
+                    )
+                    )
+                elif x_near[1] == x_new[1]:
+                    p = np.row_stack(
+                    (
+                        np.arange(x_near[0], x_new[0], (x_new[0] - x_near[0]) / 10),
+                        np.full((1,10),x_near[1]),
+                        np.arange(x_near[2], x_new[2], (x_new[2] - x_near[2]) / 10),
+                    )
+                    )
+                elif x_near[0] == x_new[0]:             
+                    p = np.row_stack(
+                    (
+                        np.full((1,10),x_near[0]),
+                        np.arange(x_near[1], x_new[1], (x_new[1] - x_near[1]) / 10),
+                        np.arange(x_near[2], x_new[2], (x_new[2] - x_near[2]) / 10),
+                    )
+                    )
+                else:
+                    p = np.row_stack(
+                    (
+                        np.arange(x_near[0], x_new[0], (x_new[0] - x_near[0]) / 10),
+                        np.arange(x_near[1], x_new[1], (x_new[1] - x_near[1]) / 10),
+                        np.arange(x_near[2], x_new[2], (x_new[2] - x_near[2]) / 10),
+                    )
+                    )
+            cost_near = cost[idx_n] + np.sqrt((x_near[0] - x_new[0])**2 + (x_near[1] - x_new[1])**2 + (x_near[2] - x_new[2])**2)
 
             if cost_near < cost_min and world.obstacle_free(p):
                 cost_min = cost_near
@@ -91,33 +117,53 @@ def rrt_star_particle(start, goal, world, opts):
 
             if (x_new[0] == x_near[0]) and (x_new[1] == x_near[1]) and (x_new[2] == x_near[2]):
                 p = node_new[:, None]
-                            #if (node_new[0] == node_near[0]) and (node_new[1] == node_near[1]) and (node_new[2] == node_near[2]):
-                #p = node_new[:, None]
             else:
-                p = np.row_stack(
+                # Check if node coordinates for near and new are the same in one of the dimensions and substitute the arange command for runnable code
+                if x_near[2] == x_new[2]:
+                    p = np.row_stack(
                     (
-                        #np.arange(node_near[0], node_new[0], (node_new[0] - node_near[0]) / 10),
-                        #np.arange(node_near[1], node_new[1], (node_new[1] - node_near[1]) / 10),
-                        #np.arange(node_near[2], node_new[2], (node_new[2] - node_near[2]) / 10),
-                                                
+                        np.arange(x_near[0], x_new[0], (x_new[0] - x_near[0]) / 10),
+                        np.arange(x_near[1], x_new[1], (x_new[1] - x_near[1]) / 10),
+                        np.full((1,10),x_near[2]),
+                    )
+                    )
+                elif x_near[1] == x_new[1]:
+                    p = np.row_stack(
+                    (
+                        np.arange(x_near[0], x_new[0], (x_new[0] - x_near[0]) / 10),
+                        np.full((1,10),x_near[1]),
+                        np.arange(x_near[2], x_new[2], (x_new[2] - x_near[2]) / 10),
+                    )
+                    )
+                elif x_near[0] == x_new[0]:             
+                    p = np.row_stack(
+                    (
+                        np.full((1,10),x_near[0]),
+                        np.arange(x_near[1], x_new[1], (x_new[1] - x_near[1]) / 10),
+                        np.arange(x_near[2], x_new[2], (x_new[2] - x_near[2]) / 10),
+                    )
+                    )
+                else:
+                    p = np.row_stack(
+                    (
                         np.arange(x_near[0], x_new[0], (x_new[0] - x_near[0]) / 10),
                         np.arange(x_near[1], x_new[1], (x_new[1] - x_near[1]) / 10),
                         np.arange(x_near[2], x_new[2], (x_new[2] - x_near[2]) / 10),
                     )
-                )
+                    )
             cost_near = cost_min + np.linalg.norm(x_near - x_new)
             if cost_near < cost[idx_n] and world.obstacle_free(p):
                 parents[idx_n] = len(parents) - 1
                 cost[idx_n] = cost_near
 
 
+
+    # Initalize lists to contain the node data in planner
     nodes = np.array(start.reshape((-1, 1)))  # Make numpy column vector
     parents = [0]  # Initial state has no parent
-    #cost = [0]
-    cost = np.array([0])
-    # nodes = start.reshape((-1, 1))
-    # parents = np.array([0], dtype=int)
+    cost = np.array([0]) # Inital cost is zero
 
+    # Run the planning algorithm
     for i in range(0,opts["K"]+1):
         node_sample = sample_free()
         node_idx = nearest(node_sample)
@@ -145,16 +191,13 @@ def rrt_star_particle(start, goal, world, opts):
                 rewire_neighborhood(node_new, node_neigh_idx, cost_min)
                 
                 if (opts["eps"] > 0) and (np.sum((goal - node_new) ** 2, axis=0) < opts["eps"]):
-                    #print("Broke early")
                     break
         else: 
-            #cost = np.append(cost, cost_min.reshape((-1,1)),axis=1)
             cost = np.append(cost, cost_min.reshape((-1, 1)), axis=None)
             nodes = np.append(nodes, node_new.reshape((-1,1)),axis=1)
             parents.append(idx_min)
             rewire_neighborhood(node_new, node_neigh_idx, cost_min)
             if (opts["eps"] > 0) and (np.sum((goal - node_new) ** 2, axis=0) < opts["eps"]):
-                # print("Broke early")
                 break
 
     goal_idx = np.argmin(np.sum((nodes - goal.reshape((-1, 1))) ** 2, axis=0))

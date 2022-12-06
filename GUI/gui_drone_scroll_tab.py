@@ -113,7 +113,6 @@ class Gui_drone_scroll_tab:
         self.points_np_array = np.delete(self.points_np_array, (0), axis=0) # remove starting position
         self.points_np_array = np.insert(self.points_np_array, (0), [0,0.01,self.points_np_array[0][2]], axis=0) # add point to rise to
         self.save_csv_file(self.points_np_array)
-        print("rrt in drone_scroll: ", self.rrt)
         if self.rrt.get() == 1:
             run_planner(str(self.name))
         self.make_trajectory_file()
@@ -131,7 +130,6 @@ class Gui_drone_scroll_tab:
     # input: [np.array] waypoints
     # output: -
     def save_csv_file(self, waypoints):
-        print("working")
         np.savetxt('GUI/points_csv/drone'+ str(self.name)+'waypoints.csv', X=waypoints, delimiter=',', fmt='%10.3f')
 
     # use waypoint CSV file to make trajectory CSV file
@@ -139,11 +137,9 @@ class Gui_drone_scroll_tab:
     # input: -
     # output: -
     def make_trajectory_file(self):
-        print("Create trajectory for drone "+str(self.name))
         v_max = 1.5
         a_max = 1.5
         if self.rrt.get() == 1:
-            print("using rrt")
             waypoint_file = './GUI/Planner/drone'+str(self.name)+'rrttrajectory.csv'
         else:
             waypoint_file = './GUI/points_csv/drone'+str(self.name)+'waypoints.csv'
@@ -153,12 +149,11 @@ class Gui_drone_scroll_tab:
         #global_waypoints = local_waypoints
         waypoint_file_global = 'GUI/points_csv/drone'+str(self.name)+'waypoints_global.csv'
 
-        print("Creating trajectory")
         # create new local_drone*waypoints.csv file
         np.savetxt(waypoint_file_global, X=global_waypoints, delimiter=',', fmt='%10.3f')
         trajectory_file = './crazyswarm/ros_ws/src/crazyswarm/scripts/drone'+str(self.name)+'trajectory.csv'
         os.system('./uav_trajectories/build/genTrajectory -i ' + waypoint_file_global + ' --v_max ' + str(v_max) + ' --a_max ' + str(a_max) + ' -o ' + trajectory_file)
-        print("Trajectory created.")
+        print("Final trajectory for drone "+str(self.name)+" from UAV-Trajectory created successfully!")
         
         # add yaw to the trajectory file if the yaw option is active
         if(self.show_yaw):
@@ -166,8 +161,7 @@ class Gui_drone_scroll_tab:
             yaw_np = np.array(self.get_yaws())
             self.make_yaw_csv(yaw_np)
             os.system('python3 crazyswarm/ros_ws/src/crazyswarm/scripts/yaw_generation.py crazyswarm/ros_ws/src/crazyswarm/scripts/drone' + str(self.name) + 'trajectory.csv GUI/points_csv/drone' + str(self.name) + 'yaw.csv ' + str(self.name))
-            
-        print("done with traj")
+
         
     # saves its csv file into a folder in the save_missions dir
     # input: [string] the destinated folder which to save the file in
