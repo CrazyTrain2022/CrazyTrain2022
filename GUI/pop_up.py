@@ -4,6 +4,7 @@ from tkinter import *
 from tkinter import ttk
 import tkinter as tk
 from typing import Pattern
+from obstacle_point import Obstacle_point
 
 from point_creations.patterns import Patterns
 
@@ -73,40 +74,54 @@ class Pop_up:
             self.entry4.grid(row=1, column=2, pady=2)
             self.frame.pack()
         
-        # Obstacle popup: Create an obstacle    
+        # Obstacle popup: Create an obstacle and load in existing obstacles   
         if(self.text_btn == "Create Obstacle"):
             self.frame = Frame(self.master)
-            self.entry5 = Entry(self.frame, width=7)
-            self.entry6 = Entry(self.frame, width=7)
-            self.entry7 = Entry(self.frame, width=7)
-            self.entry8 = Entry(self.frame, width=7)
-            self.entry9 = Entry(self.frame, width=7)
-            self.entry10 = Entry(self.frame, width=7)
 
-            self.lbl4 = Label(self.frame, text="x:")
-            self.lbl5 = Label(self.frame, text="y:")
-            self.lbl6 = Label(self.frame, text="z:")
-            self.lbl7 = Label(self.frame, text="Height:")
-            self.lbl8 = Label(self.frame, text="Width:")
-            self.lbl9 = Label(self.frame, text="Depth:")
 
-            self.lbl4.grid(row=1, column=1, pady=2)
-            self.lbl5.grid(row=2, column=1, pady=2)
-            self.lbl6.grid(row=3, column=1, pady=2)
-            self.lbl7.grid(row=4, column=1, pady=2)
-            self.lbl8.grid(row=5, column=1, pady=2)
-            self.lbl9.grid(row=6, column=1, pady=2)
-            self.entry5.grid(row=1, column=2, pady=2)
-            self.entry6.grid(row=2, column=2, pady=2)
-            self.entry7.grid(row=3, column=2, pady=2)
-            self.entry8.grid(row=4, column=2, pady=2)
-            self.entry9.grid(row=5, column=2, pady=2)
-            self.entry10.grid(row=6, column=2, pady=2)
+            # Create A Main Frame
+            self.mission_frame = Frame(self.frame, height=150, width=220)
+            self.mission_frame.grid(column=0, row=2)
+
+            Label(self.mission_frame, text = "x            y            z            h            w            d    \n ----------------------------------------------------------------------").grid(column=0, row=0, columnspan=6)
+
+            # Create A Canvas
+            self.canvas = Canvas(self.mission_frame, height=150, width=335)
+            self.canvas.grid(column=0, row=1, columnspan=3)
+
+            # Add A Scrollbar To The Canvas
+            self.scroll = ttk.Scrollbar(self.mission_frame, orient=VERTICAL, command=self.canvas.yview)
+            self.scroll.grid(column=4, row=0, rowspan=8, sticky=N+S+E)
+
+            # Configure The Canvas
+            self.canvas.configure(yscrollcommand=self.scroll.set)
+            self.canvas.bind('<Configure>', lambda e: self.canvas.configure(scrollregion = self.canvas.bbox("all")))
+
+            self.obstacle_frame = Frame(self.canvas)
+
+            # add that new frame to a window in the canvas
+            self.canvas.create_window((0,0), window=self.obstacle_frame, anchor="nw")
+
+            # add obstacle rows to obstacle frame by loading in already exising obstacle
+            self.obs_entry_lst = []
+
+            file_obs = "crazyswarm/ros_ws/src/crazyswarm/scripts/pycrazyswarm/visualizer/obstacles.csv"
+            i = 0
+            with open(file_obs, 'r') as file:
+                reader = csv.reader(file, skipinitialspace=True)
+                for row in reader:
+                    self.obs_entry_lst.append(Obstacle_point(self.obstacle_frame,i))
+                    self.obs_entry_lst[i].set_coord(row)
+                    i+=1
+            # always add empty row
+            self.obs_entry_lst.append(Obstacle_point(self.obstacle_frame,i))
+
+            # add buttons to manipulate these obstacles
+            Button(self.mission_frame, text = "Add entry",command=self.add_entry).grid(column=0, row=1111)
+            Button(self.mission_frame, text = "Delete last",command=self.delete_entry).grid(column=1, row=1111)
+            Button(self.mission_frame, text=self.text_btn, command=self.button_clicked).grid(column=2, row=1111)
             self.frame.pack()
 
-        # button added for all popups
-        self.button = Button(self.master, text=self.text_btn, command=self.button_clicked)
-        self.button.pack(pady=2)
 
     # determine what function to call when button is pressed
     # input: -
@@ -127,6 +142,36 @@ class Pop_up:
         elif(self.text_btn == "Create Obstacle"):
             self.create_obstacle()
         self.close_popup()
+
+
+    # function to update scrollbar when obstacles are added/removed
+    # input: -
+    # output: -
+    def updateScrollRegion(self):
+        self.canvas.update_idletasks()
+        self.canvas.config(scrollregion=self.obstacle_frame.bbox())
+
+    # adds a new obstacle
+    # input: -
+    # output: -
+    def add_entry(self):
+        self.obs_entry_lst.append(Obstacle_point(self.obstacle_frame,len(self.obs_entry_lst)))
+        self.updateScrollRegion()
+
+    # deletes the last obstacle in the list and detroy it properly
+    # input: -
+    # output: -
+    def delete_entry(self):
+        if(len(self.obs_entry_lst) > 1):
+            last_row = self.obs_entry_lst.pop()
+            last_row.x.destroy()
+            last_row.y.destroy()
+            last_row.z.destroy()
+            last_row.h.destroy()
+            last_row.w.destroy()
+            last_row.d.destroy()
+            
+        self.updateScrollRegion()
 
     # runs the command to save the file
     # input: -
@@ -246,26 +291,18 @@ class Pop_up:
         self.object.drone_tabs[0].save_csv_file(waypoints)
         self.object.drone_tabs[0].display_loaded_mission()
     
-    # creates obstacle for rrt
+    # creates obstacle/obstacles for rrt
     def create_obstacle(self):
         data = []
-        x = float(self.entry5.get())
-        y = float(self.entry6.get())
-        z = float(self.entry7.get())
-        h = float(self.entry8.get())
-        w = float(self.entry9.get())
-        d = float(self.entry10.get())
-        data.append(x)
-        data.append(y)
-        data.append(z)
-        data.append(h)
-        data.append(w)
-        data.append(d)
+        for entry in self.obs_entry_lst:
+            if(entry.check_obstacle()):
+                value = entry.get_obstacle()
+                data.append(value)
 
         file_obs = "crazyswarm/ros_ws/src/crazyswarm/scripts/pycrazyswarm/visualizer/obstacles.csv"
-        with open(file_obs, 'w') as file:
+        with open(file_obs, 'w', newline='') as file:
             writer = csv.writer(file)
-            writer.writerow(data)
+            writer.writerows(data)
 
     # close pop-up window
     def close_popup(self):
