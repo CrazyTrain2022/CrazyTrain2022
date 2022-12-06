@@ -36,7 +36,7 @@ class Gui_upper_tab_menu:
         self.file_submen.add_command(label="Show yaw option", command=self.yaw_option)
         self.file_submen.add_command(label="Add obstacle", command=self.obstacle)
         self.file_parameters.add_command(label="Change controller", command=self.change_controller)
-        self.file_parameters.add_command(label="Change controller parameters", command=self.change_parameters)
+        self.file_parameters.add_command(label="Change parameters", command=self.change_parameters)
         self.file_parameters.add_command(label="Catkin make", command=self.catkin_make)
 
         self.file_submen.add_cascade(label="Change parameters", menu=self.file_parameters)
