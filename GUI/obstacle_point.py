@@ -62,6 +62,7 @@ class Obstacle_point:
         self.d.delete(0,END)
         self.d.insert(0,float(coord[5]))
 
+    def get_obstacle(self):
         x = self.x.get()
         y = self.y.get()
         z = self.z.get()
