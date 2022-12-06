@@ -78,14 +78,15 @@ class Pop_up:
         if(self.text_btn == "Create Obstacle"):
             self.frame = Frame(self.master)
 
-            Label(self.frame, text = "Obstacles ", font=("Arial", 12)).grid(column=0, row=0)
 
             # Create A Main Frame
-            self.mission_frame = Frame(self.frame, height=150, width=250)
+            self.mission_frame = Frame(self.frame, height=150, width=220)
             self.mission_frame.grid(column=0, row=2)
-            
+
+            Label(self.mission_frame, text = "x            y            z            h            w            d    \n ----------------------------------------------------------------------").grid(column=0, row=0, columnspan=6)
+
             # Create A Canvas
-            self.canvas = Canvas(self.mission_frame, height=150, width=350)
+            self.canvas = Canvas(self.mission_frame, height=150, width=335)
             self.canvas.grid(column=0, row=1, columnspan=3)
 
             # Add A Scrollbar To The Canvas

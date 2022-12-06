@@ -282,7 +282,7 @@ class Gui_upper_tab_menu:
     def obstacle(self):
         pop_up_window = Tk() # window setup
         pop_up_window.title("Add obstacle")
-        pop_up_window.geometry("600x400")
+        pop_up_window.geometry("480x300")
 
         Pop_up(pop_up_window,"Obstacle options", "Create Obstacle", self.gui_main_frame)
 
