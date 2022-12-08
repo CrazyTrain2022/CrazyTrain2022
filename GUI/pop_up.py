@@ -32,6 +32,7 @@ class Pop_up:
         self.entry1 = Entry(self.master)
         if(self.text_btn == "Save"):
             self.entry1.pack(pady=2)
+            Button(self.master, text=self.text_btn, command=self.button_clicked).pack()
 
         # load/remove popup: dropdown menu and variable defined
         self.selected_value = StringVar(self.master)
@@ -40,6 +41,7 @@ class Pop_up:
             self.load_options = os.listdir("GUI/points_csv/saved_missions/") # reads all saved missions into dropdow menu
             self.dropdown = OptionMenu(self.master, self.selected_value, *self.load_options)
             self.dropdown.pack(pady=2)
+            Button(self.master, text=self.text_btn, command=self.button_clicked).pack()
 
         # manual controll popup: dropdown menu to select drone for manual flight
         # TODO: here self.load_options should be the drones currently selected
@@ -49,6 +51,7 @@ class Pop_up:
             self.load_options = ["1"] #, "2", "3", "4"] # currently only drone 1 available for manual control
             self.dropdown = OptionMenu(self.master, self.selected_drone, *self.load_options)
             self.dropdown.pack(pady=2)
+            Button(self.master, text=self.text_btn, command=self.button_clicked).pack()
 
         # helix popup: create helix pattern
         if(self.text_btn == "Create Helix"):
@@ -63,6 +66,7 @@ class Pop_up:
             self.entry2.grid(row=1, column=2, pady=2)
             self.entry3.grid(row=2, column=2,pady=2)
             self.frame.pack()
+            Button(self.master, text=self.text_btn, command=self.button_clicked).pack()
 
         # Circle popup: create circle pattern
         if(self.text_btn == "Create Circle"):
@@ -73,6 +77,7 @@ class Pop_up:
             self.lbl3.grid(row=1, column=1, pady=2)
             self.entry4.grid(row=1, column=2, pady=2)
             self.frame.pack()
+            Button(self.master, text=self.text_btn, command=self.button_clicked).pack()
         
         # Obstacle popup: Create an obstacle and load in existing obstacles   
         if(self.text_btn == "Create Obstacle"):
