@@ -38,7 +38,7 @@ class Gui_main_frame:
         self.tabControl.pack(expand=1, fill="both")
         pane_drone.grid(column=0, row=1, padx=10, pady=10)
 
-        # mission start buttons
+        # mission buttons on frame
         pane_start_flight = Frame(master, width=250, height=100)
         pane_start_flight.grid(column=0, row=2, padx=1, pady=10)
 
@@ -78,19 +78,25 @@ class Gui_main_frame:
         checkbutton_sim.grid(column=0, row=0, columnspan=2, padx=5, pady=5)
         checkbutton_rrt.grid(column=0, row=1, columnspan=2, padx=5, pady=5)
 
-
+    # Function to keep track of what mode is being used (simulation or real)
+    # input: -
+    # output: -
     def run_sim(self):
         if(self.simulation.get() == 1):
             print("Simulation mode activated.")
         else:
             print("Simulation mode de-activated.")
 
+    # function to keep track of what mode is being used (RRT or not RRT)
+    # input: -
+    # output: -
     def run_rrt(self):
         if(self.rrt.get() == 1):
             print("RRT*-planner activated.")
         else:
             print("RRT*-planner de-activated.")
-    # start flight script by callin a bash script
+
+    # start flight script and real time simlation script or manual control by calling the appropiate bash scripts.
     # input: -
     # output: -
     def run_flight(self):
@@ -139,7 +145,7 @@ class Gui_main_frame:
         if(self.autonomous):
             os.system('gnome-terminal -- bash GUI/bash_scripts/start_real_time_sim.sh')
 
-        # runs bash script to emergency land
+    # runs bash script to emergency land
     # input: -
     # output: -
     def emergency_pressed(self):
