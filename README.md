@@ -1,16 +1,28 @@
-### Hi there 👋
+# CrazyTrain2022 project
 
-<!--
-**CrazyTrain2022/CrazyTrain2022** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+Welcome the Crazyflie project for the course TSRT10 at Linköping University!
 
-Here are some ideas to get you started:
+## Drone project Visionen
+Rosnodes with functionality to simplify the use of arena Visionen at Linköping University developed as part of the project course TSRT10.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+
+## Authors
+Contributors autumn 2022:
+* **Anton Bossen** 
+* **Anton Håkansson**
+* **Emil Lydell**
+* **Erik Axelsson**
+* **Lukas Jonsson**
+* **Morteza Akbari**
+* **Patrik Lindström**
+* **Oskar Grönlund**
+
+## To download repo
+
+Clone the CrazyTrain repository by entering the following command:
+
+**git submodule update --init --recursive**
+
+Since the repository contains the project Crazyswarm as a submodule, this has to be recursively updated. To do this, use the command:
+
+**git submodule update --init --recursive**
