@@ -45,7 +45,7 @@ class Gui_upper_tab_menu:
         # drone menu
         drone_submen = tk.Menu(menu_widget, tearoff=False)
         drone_submen.add_command(label="Select drones", command=self.select_drones)
-        drone_submen.add_command(label="Start all preflight scripts", command=self.start_ros)
+        drone_submen.add_command(label="Start all preflight scripts", command=self.start_prefligh)
         drone_submen.add_command(label="Start ROS server", command=self.start_ros_server)
         drone_submen.add_command(label="Start hover swarm", command=self.start_hover_swarm)
         drone_submen.add_command(label="Start Qualisys node", command=self.start_qualisys_node)
@@ -128,14 +128,14 @@ class Gui_upper_tab_menu:
             self.gui_main_frame.show_yaw_option()
 
     # runs a bash script that opens hover_swarm file to enable changing
-    # controller and filter parameter
+    # controller and filter
     # input: -
     # output: -
     def change_controller(self):
         os.system('gnome-terminal -- bash GUI/bash_scripts/change_controller.sh')
     
     # runs a bash script that opens crazyflieTypes file to enable changing
-    # controller parameters
+    # controller and filter parameters
     # input: -
     # output: -
     def change_parameters(self):
@@ -183,7 +183,7 @@ class Gui_upper_tab_menu:
     def drone_position(self):
         os.system('gnome-terminal -- python3 ./crazyswarm/ros_ws/src/crazyswarm/scripts/positionSubscriber.py ')
 
-        # runs a bash script that starts figure8
+    # runs a bash script that starts figure8
     # input: -
     # output: -
     def run_figure8(self):
@@ -203,15 +203,15 @@ class Gui_upper_tab_menu:
             Popen("python3 hello_world.py --sim", shell=True, cwd="crazyswarm/ros_ws/src/crazyswarm/scripts")
 
 
-    # runs a bash script that opens hover_swarm file to enable changing
-    # controller and filter parameter
+    # runs 3 bash scripts that starts the 3 preperation scipts for flight. 
     # input: -
     # output: -
-    def start_ros(self):
+    def start_prefligh(self):
         #os.system('gnome-terminal -- bash GUI/bash_scripts/start')
         os.system('gnome-terminal -- bash GUI/bash_scripts/start_ros.sh') 
         time.sleep(1)
         os.system('gnome-terminal -- bash GUI/bash_scripts/start_hover_swarm.sh')
+        time.sleep(1)
         os.system('gnome-terminal -- bash GUI/bash_scripts/start_qualisys_node.sh')
 
     # function that update the drone tabs to show only for the selected drone
@@ -270,7 +270,9 @@ class Gui_upper_tab_menu:
 
         Pop_up(pop_up_window,"Helix pattern options", "Create Helix", self.gui_main_frame)
 
-
+    # when a pattern creation option is pressed
+    # input: -
+    # output: -
     def circle(self):
         pop_up_window = Tk() # window setup
         pop_up_window.title("Load mission")
@@ -278,6 +280,9 @@ class Gui_upper_tab_menu:
 
         Pop_up(pop_up_window,"Circle pattern options", "Create Circle", self.gui_main_frame)
 
+    # pop up window when adding obstacles 
+    # input: -
+    # output: -
     def obstacle(self):
         pop_up_window = Tk() # window setup
         pop_up_window.title("Add obstacle")

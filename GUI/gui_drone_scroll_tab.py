@@ -92,8 +92,6 @@ class Gui_drone_scroll_tab:
         self.updateScrollRegion()
     
     # when a pattern creation option is pressed
-    # input: -
-    # output: -
     # saves the points from the tab in an np.array
     # input: -
     # output: [bool] True or False depending on if the trajectory was created properly
@@ -124,6 +122,7 @@ class Gui_drone_scroll_tab:
     def updateScrollRegion(self):
         self.canvas.update_idletasks()
         self.canvas.config(scrollregion=self.points_frame.bbox())
+
     # creates a csv file for path points from points_mtx
     # this function takes waypoints as input argument instead of using class variable to enable
     # usage from other class with different waypoints as well
@@ -143,15 +142,15 @@ class Gui_drone_scroll_tab:
             waypoint_file = './GUI/Planner/drone'+str(self.name)+'rrttrajectory.csv'
         else:
             waypoint_file = './GUI/points_csv/drone'+str(self.name)+'waypoints.csv'
-        # create local_waypoint file so the trajectories are made from the correct place
+        # create global_waypoint file so the trajectories are made from the correct place
         local_waypoints = genfromtxt(waypoint_file, delimiter=',')
         global_waypoints = local_waypoints + self.start_coord
-        #global_waypoints = local_waypoints
         waypoint_file_global = 'GUI/points_csv/drone'+str(self.name)+'waypoints_global.csv'
 
-        # create new local_drone*waypoints.csv file
+        # create new waypoints.csv file
         np.savetxt(waypoint_file_global, X=global_waypoints, delimiter=',', fmt='%10.3f')
         trajectory_file = './crazyswarm/ros_ws/src/crazyswarm/scripts/drone'+str(self.name)+'trajectory.csv'
+        #Call upon uav trajectory and create trajectory csv file
         os.system('./uav_trajectories/build/genTrajectory -i ' + waypoint_file_global + ' --v_max ' + str(v_max) + ' --a_max ' + str(a_max) + ' -o ' + trajectory_file)
         print("Final trajectory for drone "+str(self.name)+" from UAV-Trajectory created successfully!")
         
