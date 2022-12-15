@@ -26,3 +26,6 @@ Clone the CrazyTrain repository by entering the following command:
 Since the repository contains the project Crazyswarm as a submodule, this has to be recursively updated. To do this, use the command:
 
 **git submodule update --init --recursive**
+
+## License
+This project is owned by ISY, Department of Electrical Engineering at Linköping University
