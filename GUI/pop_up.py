@@ -88,7 +88,7 @@ class Pop_up:
             self.mission_frame = Frame(self.frame, height=150, width=220)
             self.mission_frame.grid(column=0, row=2)
 
-            Label(self.mission_frame, text = "x            y            z            h            w            d    \n ----------------------------------------------------------------------").grid(column=0, row=0, columnspan=6)
+            Label(self.mission_frame, text = "x1            y1            z1            x2            y2            z2    \n ----------------------------------------------------------------------").grid(column=0, row=0, columnspan=6)
 
             # Create A Canvas
             self.canvas = Canvas(self.mission_frame, height=150, width=335)
@@ -290,7 +290,7 @@ class Pop_up:
     def create_circle(self):
         radius = float(self.entry4.get())
         start_coord = self.object.drone_tabs[0].start_coord
-        waypoints = Patterns().circle(radius, 15, start_coord, 10)
+        waypoints = Patterns().circle(radius, 10, start_coord, 10)
 
         # save waypoints and save to csv file
         self.object.drone_tabs[0].save_csv_file(waypoints)

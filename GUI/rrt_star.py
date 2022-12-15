@@ -165,6 +165,7 @@ def rrt_star_particle(start, goal, world, opts):
 
     # Run the planning algorithm
     for i in range(0,opts["K"]+1):
+        print("Iterating, no: ", i)
         node_sample = sample_free()
         node_idx = nearest(node_sample)
         node_nearest = nodes[:,node_idx]

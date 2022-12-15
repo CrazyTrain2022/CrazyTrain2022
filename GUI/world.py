@@ -84,7 +84,7 @@ def obstacle_check(x, y, z, x_obst, y_obst, z_obst):
         single point x,y"""
 
     for ii in range(x_obst.shape[0]):
-        safe = 0.5
+        safe = 0.3
         if (x > (x_obst[ii, 0]-safe) and x < (x_obst[ii, 1]+safe)) and \
             (y > (y_obst[ii, 0]-safe) and y < (y_obst[ii, 1]+safe)) and \
             (z > (z_obst[ii, 0]-safe) and z < (z_obst[ii, 1]+safe)):
